@@ -7,19 +7,19 @@ This introduction is based on the [official tutorial of Django](https://docs.dja
 
 ## Installation
 
-You should have Python 3.5 or later installed (with `pip`), then run :
+You should have Python 3.5 or later installed (with `pip3`), then run :
 
 ```shell
-pip install django
+pip3 install django
 ```
 
 If you want to install it for the local user (without having to use `sudo` for instance), use the `--user` option :
 ```shell
-pip install --user django
+pip3 install --user django
 ```
 
-Then in python to check :
-```python
+Then in python3 to check :
+```python3
 import django
 print(django.get_version())
 ```
@@ -36,7 +36,7 @@ django-admin startproject PROJECT_NAME
 
 `PORT` is optional.
 ```shell
-python manage.py runserver [PORT]
+python3 manage.py runserver [PORT]
 ```
 
 This starts the development server, **it is not intended to be used for production**.
@@ -49,7 +49,7 @@ Apps are where logic is located, a project can have several apps.
 
 To create one :
 ```shell
-python manage.py startapp APP_NAME
+python3 manage.py startapp APP_NAME
 ```
 
 ## View
@@ -58,7 +58,7 @@ A view is an answer to a request.
 
 To make one, open the `views.py` file in your app folder and place.
 Here, for a simple text answer :
-```python
+```python3
 from django.http import HttpResponse
 
 def index(request):
@@ -70,7 +70,7 @@ def index(request):
 For this function to be accessible, we need to configure the route to call it from the app.
 To do so, open or create the file `urls.py` in your app :
 
-```python
+```python3
 from django.urls import path
 
 from . import views
@@ -91,7 +91,7 @@ The `path(SUB_PATH, FUNCTION)` works as follow :
 Then we need to give a route to the app to access it from the project.
 In the existing `urls.py` in the project folder :
 
-```python
+```python3
 from django.urls import include, path
 
 urlpatterns = [
@@ -124,7 +124,7 @@ In this file, you can define your data as classes and attributes :
 
 > Methods can be added to manipulate more easily the model
 
-```python
+```python3
 from django.db import models
 
 
@@ -145,7 +145,7 @@ class Choice(models.Model):
 
 Go into the `settings.py` file and add this line in the array named `INSTALLED_APPS` :
 
-```python
+```python3
 'APP_NAME.apps.PollsConfig'
 ```
 
@@ -153,23 +153,23 @@ Go into the `settings.py` file and add this line in the array named `INSTALLED_A
 
 First, build the migration :
 ```shell
-python manage.py makemigrations APP_NAME
+python3 manage.py makemigrations APP_NAME
 ```
 
 Second, actually migrate to the db :
 ```shell
-python manage.py migrate
+python3 manage.py migrate
 ```
 
 ## Connect to the database "manually"
 
-Start a python shell through the project to have the correct environment variables set :
+Start a python3 shell through the project to have the correct environment variables set :
 ```shell
-python manage.py shell
+python3 manage.py shell
 ```
 
 Then you can play with your database :
-```python
+```python3
 from polls.models import Choice, Question
 
 # Create a `Question` :
