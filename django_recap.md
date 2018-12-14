@@ -213,4 +213,4 @@ Choice.objects.all()
 # ...
 ```
 
-See [](), [](), []() for more information on the api.
+See [models relations](https://docs.djangoproject.com/en/2.1/ref/models/relations/) and [making queries](https://docs.djangoproject.com/en/2.1/topics/db/queries/) for more information on the api.
