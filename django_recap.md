@@ -112,6 +112,22 @@ In the `settings.py` file in the project folder, you can configure the database 
 - `ENGINE` can take : `django.db.backends.DB_TYPE` where `DB_TYPE` can be `sqlite3`, `postgresql`, `mysql` or `oracle`.
 - `NAME` : name of the db
 - Other options that might be useful for db other than sqlite : `USER`, `PASSWORD`, `HOST`, `PORT`...
+- Possible to use the existing database (`mysql`) and its configurations by adding `mysql/my.cnf` as follows:
+```python3
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql'
+        'OPTIONS': {
+            'read_default_file': '/etc/mysql/my.cnf',
+         },
+     }
+}}
+```
+After setting it is good practice to restart the daemon processes:
+```shell
+systemctl daemon-reload
+systemctl restart mysql
+```
 
 See [here](https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-DATABASES) for more info.
 
@@ -214,3 +230,11 @@ Choice.objects.all()
 ```
 
 See [models relations](https://docs.djangoproject.com/en/2.1/ref/models/relations/) and [making queries](https://docs.djangoproject.com/en/2.1/topics/db/queries/) for more information on the api.
+
+## Start the Django Server
+For running WebApps the server need to be started (default port 8000):
+```shell
+python3 manage.py runserver 141.59.29.115:8000
+```
+Unfortunately the server runs only as long as the terminal is open. 
+But by using `screen` the django server can run 24/7.
