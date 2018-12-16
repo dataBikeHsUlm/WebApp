@@ -5,7 +5,11 @@
 
 This introduction is based on the [official tutorial of Django](https://docs.djangoproject.com/en/2.1/intro/tutorial01/).
 
-## Installation
+---
+
+## Setting up project
+
+### Installation
 
 You should have Python 3.5 or later installed (with `pip3`), then run :
 
@@ -26,13 +30,13 @@ print(django.get_version())
 
 > Note : The version used to write this recap is the : `2.1.4`.
 
-## Create the base folder for the django project
+### Create the base folder for the django project
 
 ```shell
 django-admin startproject PROJECT_NAME
 ```
 
-## Run server
+### Run server
 
 `PORT` is optional.
 ```shell
@@ -43,7 +47,7 @@ This starts the development server, **it is not intended to be used for producti
 
 The development server automatically reloads the project when the source code is changed.
 
-## App
+### App
 
 Apps are where logic is located, a project can have several apps.
 
@@ -52,7 +56,11 @@ To create one :
 python3 manage.py startapp APP_NAME
 ```
 
-## View
+---
+
+## Views and routes
+
+### Simple view
 
 A view is an answer to a request.
 
@@ -65,7 +73,7 @@ def index(request):
     return HttpResponse("Hello, world.")
 ```
 
-## Registering the path of the view inside the app
+### Registering the path of the view inside the app
 
 For this function to be accessible, we need to configure the route to call it from the app.
 To do so, open or create the file `urls.py` in your app :
@@ -86,7 +94,7 @@ The `path(SUB_PATH, FUNCTION)` works as follow :
 - `SUB_PATH` corresponds to the path after the base path of the app (e.g. : if the base path for the app is `example.com/app/`, then the view path will be `example.com/app/SUB_PATH`)
 - `FUNCTION` is the function to be executed when this path is called, it takes a request object and returns an `django.http.HttpResponse`.
 
-## Registering the path of the app inside the project
+### Registering the path of the app inside the project
 
 Then we need to give a route to the app to access it from the project.
 In the existing `urls.py` in the project folder :
@@ -104,7 +112,30 @@ Here, we don't directly give a function to on the path execute but we *forward* 
 
 > Now, when you run your server, you should be able to access the new route at `localhost:8000/APP_NAME/`
 
-## Connecting a database
+### Route with parameter
+
+If the views file, simply add a parameter to the function which will correspond to a parameter in the URL :
+```python3
+def detail(request, question_id):
+    return HttpResponse("You're looking at question %s." % question_id)
+```
+
+In the file `APP_NAME/urls.py`, add this route :
+```python3
+urlpatterns = [
+    # ...
+    path('<int:question_id>/', views.detail, name='detail'),
+    # ...
+]
+```
+
+This creates a route that will extract an integer, e.g. : `example.com/app/64/` will call `views.detail(request, 64)`.
+
+---
+
+## Database
+
+### Connecting a database
 
 By default, `sqlite` is used by Django, see [this page](https://docs.djangoproject.com/en/2.1/topics/install/#database-installation) to install the module for your chosen database.
 
@@ -131,7 +162,7 @@ systemctl restart mysql
 
 See [here](https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-DATABASES) for more info.
 
-## Creating data model
+### Creating data model
 
 In the app directory, the data model is located in the file `models.py`.
 In this file, you can define your data as classes and attributes :
@@ -157,7 +188,7 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 ```
 
-## Adding the data model to the project
+### Adding the data model to the project
 
 Go into the `settings.py` file and add this line in the array named `INSTALLED_APPS` :
 
@@ -165,7 +196,7 @@ Go into the `settings.py` file and add this line in the array named `INSTALLED_A
 'APP_NAME.apps.PollsConfig'
 ```
 
-## Migrate the data model to the db
+### Migrate the data model to the db
 
 First, build the migration :
 ```shell
@@ -177,7 +208,7 @@ Second, actually migrate to the db :
 python3 manage.py migrate
 ```
 
-## Connect to the database "manually"
+### Connect to the database "manually"
 
 Start a python3 shell through the project to have the correct environment variables set :
 ```shell
@@ -230,11 +261,3 @@ Choice.objects.all()
 ```
 
 See [models relations](https://docs.djangoproject.com/en/2.1/ref/models/relations/) and [making queries](https://docs.djangoproject.com/en/2.1/topics/db/queries/) for more information on the api.
-
-## Start the Django Server
-For running WebApps the server need to be started (default port 8000):
-```shell
-python3 manage.py runserver 141.59.29.115:8000
-```
-Unfortunately the server runs only as long as the terminal is open. 
-But by using `screen` the django server can run 24/7.
