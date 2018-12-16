@@ -77,9 +77,31 @@ ALLOWED_HOSTS = ['ip-address', 'DNS-Name']
 At next, the python files need to be migrated with `python3 manage.py migrate`. 
 Be sure you are in the right folder where `manage.py` is located.
 
-Afterwards the server can be started with `python3 manage.py runserver` command.
+Afterwards the development server can be started with `python3 manage.py runserver` command.
 >Hint: Django is running on port 8000 by default. For changing this, the new port has to be defined in settings.py
 
 Now we should see a running Django server which is connected to an existing MySQL database in the backend. 
 
-    
+One drawback of doing so is the necessity to have the terminal opened. Therefore we need a server deployment. One way would be to
+use the `Apache webserver`. This requires also `apache2-dev` and `mod_wsgi` 
+>WSGI is the Web Server Gateway Interface. It is a specification that describes how a web server communicates with web applications, and how web applications can be chained together to process one request.
+Execute this commands:
+```shell
+sudo apt-get install apache2-dev
+sudo apt install libapache2-mod-wsgi-py3  (WSGI = Web Server Gateway Interface)
+```
+
+Next thing, add the configurations to the *apache2.conf* file:
+```xml
+	WSGIDaemonProcess django.com python-path= /var/www/html/geonom/
+	WSGIScriptAlias / /var/www/html/geonom/geonom/wsgi.py process-group=django.com
+	
+	<Directory /var/www/html/geonom/>
+	<Files wsgi.py>
+	        Require all granted
+	</Files>
+	</Directory>
+```
+
+Finally restart Apache webserver with `sudo apachectl -k restart` and the django webapp should run as daemon process.
+See also [Django WSGI](https://mindchasers.com/dev/apache-install)
