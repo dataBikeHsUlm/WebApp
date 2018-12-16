@@ -131,6 +131,40 @@ urlpatterns = [
 
 This creates a route that will extract an integer, e.g. : `example.com/app/64/` will call `views.detail(request, 64)`.
 
+### Templating the views
+
+It is better to separate the base structure of the pages from the code. We then use **templates**.
+
+Create a directory called `templates` in your app and one with the app name in it, then finally your html template file, so the full path to your template should be : `templates/APP_NAME/TEMPLATE_NAME.html`.
+
+Variables from the python code to be inserted are put into `{{ ` and ` }}`.
+You can put simple python logic by putting the lines inside `{%` and `%}`.
+
+Example of html template code :
+```html
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+```
+
+Finally, we can generate the html page in the view :
+```python3
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+
+    # The context contains the variables you use in the template :
+    context = {
+        'latest_question_list': latest_question_list,
+    }
+    render(request, 'APP_NAME/TEMPLATE_NAME.html', context)
+```
+
 ---
 
 ## Database
@@ -261,3 +295,22 @@ Choice.objects.all()
 ```
 
 See [models relations](https://docs.djangoproject.com/en/2.1/ref/models/relations/) and [making queries](https://docs.djangoproject.com/en/2.1/topics/db/queries/) for more information on the api.
+
+### Using database and model in views
+
+In the `views.py` file :
+
+First, import your model :
+```python 3
+from .models import Question
+```
+
+Then, use the model in your view as seen in [the previous part : Connect to the database "manually"](#connect-to-the-database-"manually").
+
+For example :
+```python3
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    output = ', '.join([q.question_text for q in latest_question_list])
+    return HttpResponse(output)
+```
