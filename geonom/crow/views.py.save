@@ -1,0 +1,18 @@
+from django.shortcuts import render
+from crow.models import Distance
+
+# Create your views here
+
+def index(request):
+    """View function for home page of site."""
+
+    # Generate counts of some of the main objects
+    all_distances = Distance.objects.all().count()
+
+    context = {
+	'all_distances': all_distances,
+    }
+
+
+l
+
