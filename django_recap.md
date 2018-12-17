@@ -227,8 +227,10 @@ class Choice(models.Model):
 Go into the `settings.py` file and add this line in the array named `INSTALLED_APPS` :
 
 ```python3
-'APP_NAME.apps.PollsConfig'
+'APP_NAME.apps.App_nameConfig'
 ```
+
+The `App_nameConfig` class can be found `APP_NAME/apps.py`, it should be `APP_NAME` with the first letter as uppercase.
 
 ### Migrate the data model to the db
 
