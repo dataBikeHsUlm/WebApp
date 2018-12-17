@@ -316,3 +316,26 @@ def index(request):
     output = ', '.join([q.question_text for q in latest_question_list])
     return HttpResponse(output)
 ```
+
+---
+
+## Admin dashboard
+
+The admin dashboard is by default accessible on the route : `/admin`.
+
+To create an admin account, and follow the on-screen instructions :
+```shell
+python3 manage.py createsuperuser
+```
+
+Before accessing the dashboard, we can set Django to display our data model on it so we can modify the database directly from the dashboard.
+In the `APP_NAME/admin.py` file :
+
+```python3
+from django.contrib import admin
+from .models import Question
+
+admin.site.register(Question)
+```
+
+Now, you can start the server and go the the admin page, connect and see the a section labelled `APP_NAME`. Under it, there is the table you just added above. You can click on it and add some data in it.
