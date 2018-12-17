@@ -156,7 +156,7 @@ Example of html template code :
 Finally, we can generate the html page in the view :
 ```python3
 def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    latest_question_list = # get image list : from a file, from a database, ...
 
     # The context contains the variables you use in the template :
     context = {
