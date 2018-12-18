@@ -14,7 +14,7 @@ class ZipDist(models.Model):
     distance_fly = models.FloatField()
     distance_route = models.FloatField()
 
-    country_iso = models.CharField(max_length=2)
-    zip_code = models.CharField(max_length=10)
-    lat = models.FloatField()
-    lon = models.FloatField()
+    from_country_iso = models.CharField(max_length=2)
+    to_country_iso = models.CharField(max_length=2)
+    from_zip_code = models.CharField(max_length=10)
+    to_zip_code = models.CharField(max_length=10)
