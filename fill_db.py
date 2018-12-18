@@ -21,5 +21,9 @@ for c in lines:
     (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
 
     # TODO: Check if code already exists ?
-    Zipcode.objects.get(country_iso = country_code, zip_code = zipcode)
+    try:
+        Zipcode.objects.get(country_iso = country_code, zip_code = zipcode)
+    except e:
+        continue
+
     Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
