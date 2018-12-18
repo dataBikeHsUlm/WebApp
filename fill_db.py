@@ -15,6 +15,9 @@ print("Parsing lines...")
 for c in lines:
     country_code = c[0]
     zipcode = c[1]
+    city = c[2]
+    state = c[3]
+    query = c[:4].join(",")
 
     try:
         Zipcode.objects.get(country_iso = country_code, zip_code = zipcode)
@@ -23,9 +26,9 @@ for c in lines:
 
         # There already is a lon and lat in the file, use it ?
         try:
-            (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
+            (lat, lon) = locator.get_coordinates(query)
         except NotFoundException:
-            print("ERROR : " + country_code + ", " + zipcode + " : not found, skipping...", file=sys.stderr)
+            print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
             continue
 
         Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
