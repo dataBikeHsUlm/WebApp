@@ -14,7 +14,7 @@ with open(codes_filename, 'r') as file:
 print("Parsing lines...")
 for c in lines:
     if len(c) < 4:
-        print("ERROR : line to short : " + ",".join(c), file=sys.stderr)
+        print("ERROR : line too short : '" + ",".join(c) + "'", file=sys.stderr)
         continue
 
     country_code = c[0]
