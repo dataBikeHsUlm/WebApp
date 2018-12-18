@@ -1,5 +1,5 @@
 import sys
-from NominatimLibrary import Locator
+from NominatimLibrary import Locator, NotFoundException
 from datamodel.models import Zipcode
 
 COUNTRY_CODE="{{ COUNTRY_CODE }}"
@@ -22,7 +22,11 @@ for c in lines:
         print(country_code, zipcode)
 
         # There already is a lon and lat in the file, use it ?
-        (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
+        try:
+            (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
+        except NotFoundException:
+            print("ERROR : " + country_code + ", " + zipcode + " : not found, skipping...")
+            continue
 
         Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
 
