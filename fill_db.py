@@ -15,14 +15,14 @@ print("Parsing lines...")
 for c in lines:
     country_code = c[0]
     zipcode = c[1]
-    print(country_code, zipcode)
 
-    # There already is a lon and lat in the file, use it ?
-    (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
-
-    # TODO: Check if code already exists ?
     try:
         Zipcode.objects.get(country_iso = country_code, zip_code = zipcode)
     except Exception:
+        print(country_code, zipcode)
+
+        # There already is a lon and lat in the file, use it ?
+        (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
+
         Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
 
