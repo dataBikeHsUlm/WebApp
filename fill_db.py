@@ -24,6 +24,5 @@ for c in lines:
     try:
         Zipcode.objects.get(country_iso = country_code, zip_code = zipcode)
     except Exception:
-        continue
+        Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
 
-    Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
