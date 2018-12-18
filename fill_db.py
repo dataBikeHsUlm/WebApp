@@ -13,6 +13,10 @@ with open(codes_filename, 'r') as file:
 
 print("Parsing lines...")
 for c in lines:
+    if len(c) < 4:
+        print("ERROR : line to short : " + c, file=sys.stderr)
+        continue
+
     country_code = c[0]
     zipcode = c[1]
     city = c[2]
