@@ -17,7 +17,7 @@ for c in lines:
     zipcode = c[1]
     city = c[2]
     state = c[3]
-    query = c[:4].join(",")
+    query = ",".join(c[:4])
 
     try:
         Zipcode.objects.get(country_iso = country_code, zip_code = zipcode)
