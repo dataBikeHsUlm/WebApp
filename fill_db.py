@@ -25,7 +25,7 @@ for c in lines:
         try:
             (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
         except NotFoundException:
-            print("ERROR : " + country_code + ", " + zipcode + " : not found, skipping...")
+            print("ERROR : " + country_code + ", " + zipcode + " : not found, skipping...", file=sys.stderr)
             continue
 
         Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
