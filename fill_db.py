@@ -23,7 +23,7 @@ for c in lines:
     # TODO: Check if code already exists ?
     try:
         Zipcode.objects.get(country_iso = country_code, zip_code = zipcode)
-    except e:
+    except Exception:
         continue
 
     Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
