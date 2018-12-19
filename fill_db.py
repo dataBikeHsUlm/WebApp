@@ -34,6 +34,9 @@ for c in lines:
         except NotFoundException:
             print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
             continue
+        except Exception e:
+            print("ERROR : unknown error : " + e, file=sys.stderr)
+            continue
 
         Zipcode(country_iso = country_code, zip_code = zipcode, lat=lat, lon=lon).save()
 
