@@ -34,7 +34,7 @@ for c in lines:
         except NotFoundException:
             print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
             continue
-        except Exception e:
+        except Exception as e:
             print("ERROR : unknown error : " + e, file=sys.stderr)
             continue
 
