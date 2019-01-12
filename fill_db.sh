@@ -17,8 +17,9 @@ cd $TMP_FOLDER
 # Cloning NominatimLibrary
 git clone http://github.com/dataBikeHsUlm/NominatimLibrary.git
 
-python3 ../fill_db_from_osm.py
-
 cd ..
+
+python3 fill_db_from_osm.py
+
 rm -Rf $TMP_FOLDER
 rm NominatimLibrary
