@@ -14,7 +14,7 @@ QUERY_POSTCODES_COUNTRIES = "SELECT DISTINCT country_code,postcode FROM location
 DB_MySQL_NAME = "geonom"
 DB_MySQL_USER = "admin"
 DB_MySQL_TABLE = "datamodel_zipcode"
-INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %s, %s);"
+INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %f, %f);"
 
 DB_MySQL_PASSWORD = input("MySQL password : ")
 
@@ -33,7 +33,7 @@ mydb_cursor = mydb.cursor()
 print("Executing query to get all postcodes per countries...")
 pg_cursor.execute(QUERY_POSTCODES_COUNTRIES)
 
-print("Executing query to get all postcodes per countries...")
+print("Inserting postcodes in table...")
 counter = 0
 while True:
     elm = pg_cursor.fetchone()
