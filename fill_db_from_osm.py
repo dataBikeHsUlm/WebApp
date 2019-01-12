@@ -64,7 +64,7 @@ while True:
             continue
 
         mydb_cursor.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
+        mydb.commit()
 
 print("Stopped at zipcode nb : " + str(counter))
 postgres.close()
-mydb.commit()
