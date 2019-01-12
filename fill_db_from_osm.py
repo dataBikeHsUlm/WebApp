@@ -53,7 +53,7 @@ while True:
             print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
             continue
         except Exception as e:
-            print("ERROR : unknown error : " + e, file=sys.stderr)
+            print("ERROR : unknown error : " + str(e), file=sys.stderr)
             continue
 
         mysql.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, 13.6, -13.640))
