@@ -8,7 +8,7 @@ import sys
 DB_NOMINATIM_NAME = "Planet"
 DB_NOMINATIM_USER = "dataproject"
 # TODO: ORDER BY performance ?
-QUERY_POSTCODES_COUNTRIES = "SELECT DISTINCT country_code,postcode FROM location_area WHERE country_code IS NOT NULL AND postcode IS NOT NULL ORDER BY country_code, postcode;"
+QUERY_POSTCODES_COUNTRIES = "SELECT DISTINCT location_area.country_code,postcode,country_name.name FROM (location_area LEFT JOIN country_name ON location_area.country_code = country_name.country_code) WHERE locan_area.country_code IS NOT NULL AND postcode IS NOT NULL ORDER BY country_code, postcode;"
 
 # MySQL
 DB_MySQL_NAME = "geonom"
@@ -47,11 +47,12 @@ while True:
         counter += 1
         country_code = elm[0].upper()
         zipcode = elm[1]
+        country_name = elm[3].split('"')[3]
 
-        print("" + str(counter) + " : " + country_code + " : " + zipcode)
+        print("" + str(counter) + " : " + country_code + " : " + country_name + " : " + zipcode)
 
         # TODO: make more accurate queries ? (country name and city name)
-        query = country_code + " , " + zipcode
+        query = country_name + " , " + zipcode
         # There already is a lon and lat in the file, use it ?
         try:
             (lat, lon) = locator.get_coordinates(query)
