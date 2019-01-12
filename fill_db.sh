@@ -23,4 +23,4 @@ cd $BASE_FOLDER
 python3 fill_db_from_osm.py
 
 rm -Rf $TMP_FOLDER
-rm NominatimLibrary
+rm $BASE_FOLDER/NominatimLibrary
