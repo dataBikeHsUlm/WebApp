@@ -11,7 +11,7 @@ then
 fi
 
 sed "s/{{ COUNTRY_CODE }}/$COUNTRY_CODE/g" fill_db.py > $TMP_FOLDER/fill_db.py
-ln -s tmp/NominatimLibrary geonom
+ln -s $TMP_FOLDER/NominatimLibrary $BASE_FOLDER
 
 cd $TMP_FOLDER
 
@@ -20,7 +20,6 @@ git clone http://github.com/dataBikeHsUlm/NominatimLibrary.git
 
 cd $BASE_FOLDER
 
-ls
 python3 fill_db_from_osm.py
 
 rm -Rf $TMP_FOLDER
