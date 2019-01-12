@@ -25,7 +25,7 @@ pg_cursor = conn.cursor()
 print("Connecting to MySQL database...")
 mydb = mysql.connector.connect(
         host="localhost",
-        user=DB_MySQL_USER
+        user=DB_MySQL_USER,
         passwd=DB_MySQL_PASSWORD
 )
 mydb_cursor = mydb.cursor()
