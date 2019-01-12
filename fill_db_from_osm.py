@@ -20,7 +20,7 @@ DB_MySQL_PASSWORD = input("MySQL password : ")
 
 print("Connecting to PostgreSQL database...")
 postgres = psycopg2.connect('dbname=' + DB_NOMINATIM_NAME  + ' user=' + DB_NOMINATIM_USER)
-pg_cursor = conn.cursor()
+pg_cursor = postgres.cursor()
 
 print("Connecting to MySQL database...")
 mydb = mysql.connector.connect(
