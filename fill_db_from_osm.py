@@ -43,7 +43,7 @@ while True:
         country_code = elm[0].lower()
         zipcode = elm[1]
 
-        print(counter + " : " + country_code + " : " + zipcode)
+        print("" + counter + " : " + country_code + " : " + zipcode)
 
         # There already is a lon and lat in the file, use it ?
         try:
