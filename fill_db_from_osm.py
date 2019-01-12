@@ -16,7 +16,7 @@ DB_MySQL_USER = "admin"
 DB_MySQL_TABLE = "datamodel_zipcode"
 INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %s, %s, %s);"
 
-print(" ------------------ ")
+print(" --------------------------------- ")
 DB_MySQL_PASSWORD = input("MySQL password : ")
 
 locator = Locator()
@@ -44,6 +44,7 @@ while True:
     if elm  == None:
         break
     else:
+        counter += 1
         country_code = elm[0].upper()
         zipcode = elm[1]
 
@@ -62,7 +63,6 @@ while True:
             continue
 
         mydb_cursor.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
-        counter += 1
 
 print("Stopped at zipcode nb : " + str(counter))
 postgres.close()
