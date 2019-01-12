@@ -56,7 +56,7 @@ while True:
             print("ERROR : unknown error : " + e, file=sys.stderr)
             continue
 
-        mysql.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, 0, 0))
+        mysql.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, 13.6, -13.640))
         counter += 1
 
 print("Stopped at zipcode nb : " + counter)
