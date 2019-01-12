@@ -14,7 +14,7 @@ QUERY_POSTCODES_COUNTRIES = "SELECT DISTINCT country_code,postcode FROM location
 DB_MySQL_NAME = "geonom"
 DB_MySQL_USER = "admin"
 DB_MySQL_TABLE = "datamodel_zipcode"
-INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%u, %s, %s, %f, %f);"
+INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %s, %s, %s);"
 
 print(" ------------------ ")
 DB_MySQL_PASSWORD = input("MySQL password : ")
@@ -29,7 +29,8 @@ print("Connecting to MySQL database...")
 mydb = mysql.connector.connect(
         host="localhost",
         user=DB_MySQL_USER,
-        passwd=DB_MySQL_PASSWORD
+        passwd=DB_MySQL_PASSWORD,
+        database=DB_MySQL_NAME
 )
 mydb_cursor = mydb.cursor()
 
