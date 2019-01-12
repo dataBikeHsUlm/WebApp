@@ -16,6 +16,7 @@ DB_MySQL_USER = "admin"
 DB_MySQL_TABLE = "datamodel_zipcode"
 INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %f, %f);"
 
+print(" ------------------ ")
 DB_MySQL_PASSWORD = input("MySQL password : ")
 
 locator = Locator()
