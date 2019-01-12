@@ -1,26 +1,10 @@
 #!/bin/sh
 
-TMP_FOLDER="$(pwd)/geonom/tmp"
-BASE_FOLDER="$(pwd)"
-
-# Creating tmp dir
-if [ ! -d "tmp" ]
-then
-    rm -Rf $TMP_FOLDER
-    mkdir -p $TMP_FOLDER
-fi
-
-sed "s/{{ COUNTRY_CODE }}/$COUNTRY_CODE/g" fill_db.py > $TMP_FOLDER/fill_db.py
-ln -s $TMP_FOLDER/NominatimLibrary $BASE_FOLDER
-
-cd $TMP_FOLDER
+pip3 install mysql-connector psycopg2
 
 # Cloning NominatimLibrary
 git clone http://github.com/dataBikeHsUlm/NominatimLibrary.git
 
-cd $BASE_FOLDER
-
 python3 fill_db_from_osm.py
 
-rm -Rf $TMP_FOLDER
-rm $BASE_FOLDER/NominatimLibrary
+rm -Rf NominatimLibrary
