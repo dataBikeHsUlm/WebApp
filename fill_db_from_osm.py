@@ -43,12 +43,12 @@ while True:
         country_code = elm[0].lower()
         zipcode = elm[1]
 
-        print("" + counter + " : " + country_code + " : " + zipcode)
+        print("" + str(counter) + " : " + country_code + " : " + zipcode)
 
         # There already is a lon and lat in the file, use it ?
         try:
             # TODO: make more accurate queries ? (country name and city name)
-            (lat, lon) = locator.get_coordinates("" + country_code + "," + zipcode)
+            (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
         except NotFoundException:
             print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
             continue
@@ -59,6 +59,6 @@ while True:
         mysql.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, 13.6, -13.640))
         counter += 1
 
-print("Stopped at zipcode nb : " + counter)
+print("Stopped at zipcode nb : " + str(counter))
 postgres.close()
 mydb.commit()
