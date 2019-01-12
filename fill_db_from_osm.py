@@ -16,12 +16,7 @@ DB_MySQL_USER = "admin"
 DB_MySQL_TABLE = "datamodel_zipcode"
 INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %s, %s);"
 
-# TODO: Better solution ? Read from stdin ?
-if len(sys.argv) > 1:
-    DB_MySQL_PASSWORD = sys.argv[1]
-else:
-    print("ERROR : No arguments. Usage : `script.py MYSQL_PASSWORD`", file=sys.stderr)
-    sys.exit(1)
+DB_MySQL_PASSWORD = insert("MySQL password : ")
 
 print("Connecting to PostgreSQL database...")
 postgres = psycopg2.connect('dbname=' + DB_NOMINATIM_NAME  + ' user=' + DB_NOMINATIM_USER)
