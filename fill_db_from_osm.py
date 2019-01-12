@@ -48,10 +48,11 @@ while True:
 
         print("" + str(counter) + " : " + country_code + " : " + zipcode)
 
+        # TODO: make more accurate queries ? (country name and city name)
+        query = country_code + "," + zipcode
         # There already is a lon and lat in the file, use it ?
         try:
-            # TODO: make more accurate queries ? (country name and city name)
-            (lat, lon) = locator.get_coordinates(country_code + "," + zipcode)
+            (lat, lon) = locator.get_coordinates(query)
         except NotFoundException:
             print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
             continue
