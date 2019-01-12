@@ -18,6 +18,8 @@ INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %f, %f);
 
 DB_MySQL_PASSWORD = input("MySQL password : ")
 
+locator = Locator()
+
 print("Connecting to PostgreSQL database...")
 postgres = psycopg2.connect('dbname=' + DB_NOMINATIM_NAME  + ' user=' + DB_NOMINATIM_USER)
 pg_cursor = postgres.cursor()
@@ -56,7 +58,7 @@ while True:
             print("ERROR : unknown error : " + str(e), file=sys.stderr)
             continue
 
-        mysql.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, 13.6, -13.640))
+        mysql.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
         counter += 1
 
 print("Stopped at zipcode nb : " + str(counter))
