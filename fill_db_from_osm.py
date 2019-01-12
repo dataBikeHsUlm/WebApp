@@ -16,7 +16,7 @@ DB_MySQL_USER = "admin"
 DB_MySQL_TABLE = "datamodel_zipcode"
 INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %s, %s);"
 
-DB_MySQL_PASSWORD = insert("MySQL password : ")
+DB_MySQL_PASSWORD = input("MySQL password : ")
 
 print("Connecting to PostgreSQL database...")
 postgres = psycopg2.connect('dbname=' + DB_NOMINATIM_NAME  + ' user=' + DB_NOMINATIM_USER)
