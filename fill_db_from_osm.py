@@ -43,13 +43,13 @@ while True:
     if elm  == None:
         break
     else:
-        country_code = elm[0].lower()
+        country_code = elm[0].upper()
         zipcode = elm[1]
 
         print("" + str(counter) + " : " + country_code + " : " + zipcode)
 
         # TODO: make more accurate queries ? (country name and city name)
-        query = country_code + "," + zipcode
+        query = country_code + " , " + zipcode
         # There already is a lon and lat in the file, use it ?
         try:
             (lat, lon) = locator.get_coordinates(query)
@@ -60,7 +60,7 @@ while True:
             print("ERROR : unknown error : " + str(e), file=sys.stderr)
             continue
 
-        mysql.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
+        mydb_cursor.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
         counter += 1
 
 print("Stopped at zipcode nb : " + str(counter))
