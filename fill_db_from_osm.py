@@ -8,7 +8,7 @@ import sys
 DB_NOMINATIM_NAME = "Planet"
 DB_NOMINATIM_USER = "dataproject"
 # TODO: ORDER BY performance ?
-QUERY_POSTCODES_COUNTRIES = "SELECT DISTINCT location_area.country_code,postcode,country_name.name FROM (location_area LEFT JOIN country_name ON location_area.country_code = country_name.country_code) WHERE locan_area.country_code IS NOT NULL AND postcode IS NOT NULL ORDER BY country_code, postcode;"
+QUERY_POSTCODES_COUNTRIES = "SELECT DISTINCT location_area.country_code,postcode,country_name.name FROM (location_area LEFT JOIN country_name ON location_area.country_code = country_name.country_code) WHERE location_area.country_code IS NOT NULL AND postcode IS NOT NULL ORDER BY country_code, postcode;"
 
 # MySQL
 DB_MySQL_NAME = "geonom"
