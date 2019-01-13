@@ -51,7 +51,7 @@ while True:
 
         print("" + str(counter) + " : " + country_code + " : " + country_name + " : " + zipcode)
 
-        # TODO: make more accurate queries ? (country name and city name)
+        # TODO: make more accurate queries with city name ?
         query = country_name + " , " + zipcode
         # There already is a lon and lat in the file, use it ?
         try:
