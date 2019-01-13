@@ -47,7 +47,7 @@ while True:
         counter += 1
         country_code = elm[0].upper()
         zipcode = elm[1]
-        country_name = elm[3].split('"')[3]
+        country_name = elm[2].split('"')[3]
 
         print("" + str(counter) + " : " + country_code + " : " + country_name + " : " + zipcode)
 
@@ -63,8 +63,12 @@ while True:
             print("ERROR : unknown error : " + str(e), file=sys.stderr)
             continue
 
-        mydb_cursor.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
-        mydb.commit()
+        try:
+            mydb_cursor.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
+            mydb.commit()
+        except Exception as e:
+            print("ERROR : inserting in db : `" + query + "` : " + str(e), file=sys.stderr)
+            continue
 
 print("Stopped at zipcode nb : " + str(counter))
 postgres.close()
