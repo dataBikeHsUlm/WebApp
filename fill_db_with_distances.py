@@ -41,7 +41,7 @@ for (from_id, from_city) in enumerate(elms):
 
     print("" + str(from_id) + " : " + str(from_country_code) + " : " + from_zipcode + " : " + str(from_coords))
 
-    for (to_id, to_city) in enumerate(elms[from_id+1:]):
+    for (to_id, to_city) in enumerate(elms):
         counter += 1
 
         to_country_code = to_city[1]
@@ -54,21 +54,6 @@ for (from_id, from_city) in enumerate(elms):
 
         try:
             d_route = locator.distance_route_coords(from_coords, to_coords);
-        except Exception as e:
-            print("ERROR : getting distance by route : " + str(e), file=sys.stderr)
-            continue
-
-        try:
-            mydb_cursor.execute(INSERT_INTO_MYSQL, [d_crow, d_route, from_country_code, to_country_code, from_zipcode, to_zipcode, from_id + 1, from_id + to_id + 2])
-            mydb.commit()
-        except Exception as e:
-            print("ERROR : inserting in db : " + str(e), file=sys.stderr)
-            continue
-
-        d_crow = locator.distance_crow_coords(to_coords, from_coords);
-
-        try:
-            d_route = locator.distance_route_coords(to_coords, from_coords);
         except Exception as e:
             print("ERROR : getting distance by route : " + str(e), file=sys.stderr)
             continue
