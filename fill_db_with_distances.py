@@ -48,8 +48,10 @@ for (from_id, from_city) in enumerate(elms):
         to_zipcode = to_city[1]
         to_coords = [to_city[2], to_city[3]]
 
-        d_crow = Locator.distance_crow_coords(from_coords, to_coords);
-        d_route = Locator.distance_route_coords(from_coords, to_coords);
+        # print("" + str(to_id) + " : " + str(to_country_code) + " : " + to_zipcode + " : " + str(to_coords))
+
+        d_crow = locator.distance_crow_coords(from_coords, to_coords);
+        d_route = locator.distance_route_coords(from_coords, to_coords);
 
         try:
             mydb_cursor.execute(INSERT_INTO_MYSQL, [d_crow, d_route, from_country_code, to_country_code, from_zipcode, to_zipcode, from_id + 1, from_id + to_id + 1])
