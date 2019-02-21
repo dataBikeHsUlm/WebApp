@@ -59,7 +59,7 @@ for (from_id, from_city) in enumerate(elms):
             continue
 
         try:
-            mydb_cursor.execute(INSERT_INTO_MYSQL, [d_crow, d_route, from_country_code, to_country_code, from_zipcode, to_zipcode, from_id + 1, from_id + to_id + 2])
+            mydb_cursor.execute(INSERT_INTO_MYSQL, [d_crow, d_route, from_country_code, to_country_code, from_zipcode, to_zipcode, from_id + 1, to_id + 1])
             mydb.commit()
         except Exception as e:
             print("ERROR : inserting in db : " + str(e), file=sys.stderr)
