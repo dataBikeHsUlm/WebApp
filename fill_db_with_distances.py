@@ -35,18 +35,18 @@ print("Inserting postcodes in table...")
 counter = 0
 
 for (from_id, from_city) in enumerate(elms):
-    from_country_code = from_city[0]
-    from_zipcode = from_city[1]
-    from_coords = [from_city[2], from_city[3]]
+    from_country_code = from_city[1]
+    from_zipcode = from_city[2]
+    from_coords = [from_city[3], from_city[4]]
 
     print("" + str(from_id) + " : " + str(from_country_code) + " : " + from_zipcode + " : " + str(from_coords))
 
     for (to_id, to_city) in enumerate(elms[from_id+1:]):
         counter += 1
 
-        to_country_code = to_city[0]
-        to_zipcode = to_city[1]
-        to_coords = [to_city[2], to_city[3]]
+        to_country_code = to_city[1]
+        to_zipcode = to_city[2]
+        to_coords = [to_city[3], to_city[4]]
 
         # print("" + str(to_id) + " : " + str(to_country_code) + " : " + to_zipcode + " : " + str(to_coords))
 
