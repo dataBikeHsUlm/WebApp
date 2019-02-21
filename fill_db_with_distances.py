@@ -34,31 +34,28 @@ elms = mydb_cursor.fetchall()
 print("Inserting postcodes in table...")
 counter = 0
 
-for (id, from_city) in enumerate(elms):
-    counter += 1
+for (from_id, from_city) in enumerate(elms):
     from_country_code = from_city[0]
     from_zipcode = from_city[1]
     from_coords = [from_city[2], from_city[3]]
 
-    print("" + str(id) + " : " + from_country_code + " : " + from_zipcode + " : " + str(from_coords))
+    print("" + str(from_id) + " : " + str(from_country_code) + " : " + from_zipcode + " : " + str(from_coords))
 
-#    # TODO: make more accurate queries with city name ?
-#    query = country_name + " , " + zipcode
-#    # There already is a lon and lat in the file, use it ?
-#    try:
-#        (lat, lon) = locator.get_coordinates(query)
-#    except NotFoundException:
-#        print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
-#        continue
-#    except Exception as e:
-#        print("ERROR : unknown error : " + str(e), file=sys.stderr)
-#        continue
-#
-#    try:
-#        mydb_cursor.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
-#        mydb.commit()
-#    except Exception as e:
-#        print("ERROR : inserting in db : `" + query + "` : " + str(e), file=sys.stderr)
-#        continue
+    for (to_id, to_city) in enumerate(elms[from_id+1:]):
+        counter += 1
+
+        to_country_code = to_city[0]
+        to_zipcode = to_city[1]
+        to_coords = [to_city[2], to_city[3]]
+
+        d_crow = Locator.distance_crow_coords(from_coords, to_coords);
+        d_route = Locator.distance_route_coords(from_coords, to_coords);
+
+        try:
+            mydb_cursor.execute(INSERT_INTO_MYSQL, [d_crow, d_route, from_country_code, to_country_code, from_zipcode, to_zipcode, from_id + 1, from_id + to_id + 1])
+            mydb.commit()
+        except Exception as e:
+            print("ERROR : inserting in db : " + str(e), file=sys.stderr)
+            continue
 
 print("Stopped at zipcode nb : " + str(counter))
