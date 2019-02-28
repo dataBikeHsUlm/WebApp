@@ -18,14 +18,17 @@ DB_MySQL_PASSWORD = input("MySQL password : ")
 
 locator = Locator()
 
-print("Connecting to MySQL database...")
-mydb = mysql.connector.connect(
-        host="localhost",
-        user=DB_MySQL_USER,
-        passwd=DB_MySQL_PASSWORD,
-        database=DB_MySQL_NAME
-)
-mydb_cursor = mydb.cursor()
+def connect_mydb():
+    print("Connecting to MySQL database...")
+    mydb = mysql.connector.connect(
+            host="localhost",
+            user=DB_MySQL_USER,
+            passwd=DB_MySQL_PASSWORD,
+            database=DB_MySQL_NAME
+    )
+    return (mydb, mydb.cursor())
+
+(mydb, mydb_cursor) = connect_mydb()
 
 print("Executing query to get all postcodes per countries...")
 mydb_cursor.execute(QUERY_POSTCODES_COUNTRIES)
@@ -40,6 +43,8 @@ for (from_id, from_city) in enumerate(elms):
     from_coords = [from_city[3], from_city[4]]
 
     print("" + str(from_id) + " : " + str(from_country_code) + " : " + from_zipcode + " : " + str(from_coords))
+
+    (mydb, mydb_cursor) = connect_mydb()
 
     for (to_id, to_city) in enumerate(elms):
         counter += 1
@@ -56,6 +61,8 @@ for (from_id, from_city) in enumerate(elms):
             d_route = locator.distance_route_coords(from_coords, to_coords);
         except Exception as e:
             print("ERROR : getting distance by route : " + str(e), file=sys.stderr)
+            if e.errno == 2055:
+                (mydb, mydb_cursor) = connect_mydb()
             continue
 
         try:
