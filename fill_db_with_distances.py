@@ -49,7 +49,7 @@ for city in elms:
     lat = city[3]
     lon = city[4]
     if lat >= LAT_MIN and lat <= LAT_MAX and lon >= LON_MIN and lon <= LON_MAX:
-        res[coords] = True
+        res[(lat,lon)] = True
 
 keys = res.keys()
 print("We are using " + str(len(keys)) + " instead of " + str((LON_MAX-LON_MIN)*(LAT_MAX-LAT_MIN)))
