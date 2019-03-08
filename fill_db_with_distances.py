@@ -60,7 +60,7 @@ print("Calculating distances between squares...")
 counter = 0
 
 for (a_id, a_square) in enumerate(keys):
-    for (b_id, b_square) in enumerate(keys[id+1:]):
+    for (b_id, b_square) in enumerate(keys[a_id+1:]):
         counter += 1
 
         a_coords = (a_square[0] + CENTROID_SHIFT, a_square[1] + CENTROID_SHIFT)
