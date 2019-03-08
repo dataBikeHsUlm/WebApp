@@ -17,7 +17,7 @@ DB_MySQL_NAME = "geonom"
 DB_MySQL_USER = "admin"
 DB_MySQL_TABLE_ZIP = "datamodel_zipcode"
 DB_MySQL_TABLE_DIST = "datamodel_zipdist"
-INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE_DIST + " VALUES (id, %s, %s, %s, %s, %s, %s, %s, %s);"
+INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE_DIST + " VALUES (id, %s, %s, %s, %s, %s, %s);"
 
 QUERY_POSTCODES_COUNTRIES = "SELECT * FROM " + DB_MySQL_TABLE_ZIP + ";"
 
@@ -57,40 +57,30 @@ nb_paths = math.factorial(len(keys))/(math.factorial(2)*math.factorial(len(keys)
 print("This makes a total number of paths of : " + str(nb_paths))
 
 print("Calculating distances between squares...")
+counter = 0
 
-# for (from_id, from_city) in enumerate(elms):
-#     from_country_code = from_city[1]
-#     from_zipcode = from_city[2]
-#     from_coords = [from_city[3], from_city[4]]
-# 
-#     print("" + str(from_id) + " : " + str(from_country_code) + " : " + from_zipcode + " : " + str(from_coords))
-# 
-#     (mydb, mydb_cursor) = connect_mydb()
-# 
-#     for (to_id, to_city) in enumerate(elms):
-#         counter += 1
-# 
-#         to_country_code = to_city[1]
-#         to_zipcode = to_city[2]
-#         to_coords = [to_city[3], to_city[4]]
-# 
-#         # print("" + str(to_id) + " : " + str(to_country_code) + " : " + to_zipcode + " : " + str(to_coords))
-# 
-#         d_crow = locator.distance_crow_coords(from_coords, to_coords);
-# 
-#         try:
-#             d_route = locator.distance_route_coords(from_coords, to_coords);
-#         except Exception as e:
-#             print("ERROR : getting distance by route : " + str(e), file=sys.stderr)
-#             if e.errno == 2055:
-#                 (mydb, mydb_cursor) = connect_mydb()
-#             continue
-# 
-#         try:
-#             mydb_cursor.execute(INSERT_INTO_MYSQL, [d_crow, d_route, from_country_code, to_country_code, from_zipcode, to_zipcode, from_id + 1, to_id + 1])
-#             mydb.commit()
-#         except Exception as e:
-#             print("ERROR : inserting in db : " + str(e), file=sys.stderr)
-#             continue
-# 
-# print("Stopped at zipcode nb : " + str(counter))
+for (a_id, a_square) in enumerate(keys):
+    for (b_id, b_square) in enumerate(keys[id+1:]):
+        counter += 1
+
+        a_coords = (a_square[0] + CENTROID_SHIFT, a_square[1] + CENTROID_SHIFT)
+        b_coords = (b_square[0] + CENTROID_SHIFT, b_square[1] + CENTROID_SHIFT)
+
+        d_crow = locator.distance_crow_coords(a_coords, b_coords);
+
+        try:
+            d_route = locator.distance_route_coords(a_coords, b_coords);
+        except Exception as e:
+            print("ERROR : getting distance by route : " + str(e), file=sys.stderr)
+            if e.errno == 2055:
+                (mydb, mydb_cursor) = connect_mydb()
+            continue
+
+        try:
+            mydb_cursor.execute(INSERT_INTO_MYSQL, [a_square[0], a_square[1], b_square[0], b_square[1], d_crow, d_route])
+            mydb.commit()
+        except Exception as e:
+            print("ERROR : inserting in db : " + str(e), file=sys.stderr)
+            continue
+
+print("Stopped at zipcode nb : " + str(counter))
