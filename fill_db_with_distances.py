@@ -54,7 +54,7 @@ print("We are using " + str(len(keys)) + " instead of " + str((LON_MAX-LON_MIN)*
 nb_paths = math.factorial(keys)/(math.factorial(2)*math.factorial(keys-2))
 print("This makes a total number of paths of : " + str(nb_paths))
 
-print("Calculating distances between squares..."
+print("Calculating distances between squares...")
 
 # for (from_id, from_city) in enumerate(elms):
 #     from_country_code = from_city[1]
