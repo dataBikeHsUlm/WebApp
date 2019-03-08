@@ -12,9 +12,9 @@ class ZipDist(models.Model):
     """
         these are the coordinates of the north-west-hand corner of the "square"
     """
-    a_lat = models.IntField()
-    a_lon = models.IntField()
-    b_lat = models.IntField()
-    b_lon = models.IntField()
+    a_lat = models.IntegerField()
+    a_lon = models.IntegerField()
+    b_lat = models.IntegerField()
+    b_lon = models.IntegerField()
     distance_fly = models.FloatField()
     distance_route = models.FloatField()
