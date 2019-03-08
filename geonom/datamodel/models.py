@@ -9,12 +9,12 @@ class Zipcode(models.Model):
     lon = models.FloatField()
 
 class ZipDist(models.Model):
-    from_zip_id = models.ForeignKey(Zipcode, on_delete=models.CASCADE, related_name="from_zip_id")
-    to_zip_id = models.ForeignKey(Zipcode, on_delete=models.CASCADE, related_name="to_zip_id")
+    """
+        these are the coordinates of the north-west-hand corner of the "square"
+    """
+    a_lat = models.IntField()
+    a_lon = models.IntField()
+    b_lat = models.IntField()
+    b_lon = models.IntField()
     distance_fly = models.FloatField()
     distance_route = models.FloatField()
-
-    from_country_iso = models.CharField(max_length=2)
-    to_country_iso = models.CharField(max_length=2)
-    from_zip_code = models.CharField(max_length=10)
-    to_zip_code = models.CharField(max_length=10)
