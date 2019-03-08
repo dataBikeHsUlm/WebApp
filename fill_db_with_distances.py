@@ -46,8 +46,8 @@ print("Filtering squares containing postcodes...")
 
 res = {}
 for city in elms:
-    lat = city[3]
-    lon = city[4]
+    lat = math.floor(city[3])
+    lon = math.floor(city[4])
     if lat >= LAT_MIN and lat <= LAT_MAX and lon >= LON_MIN and lon <= LON_MAX:
         res[(lat,lon)] = True
 
