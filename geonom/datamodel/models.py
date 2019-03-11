@@ -1,4 +1,9 @@
 from django.db import models
+import math
+import NominatimLibrary
+
+class NotFoundException(Exception):
+    pass
 
 # Create your models here.
 
@@ -18,3 +23,42 @@ class ZipDist(models.Model):
     b_lon = models.IntegerField()
     distance_fly = models.FloatField()
     distance_route = models.FloatField()
+
+    def distance_between_postcodes(postcode_x, countrycode_x, postcode_y, countrycode_y):
+        # Transform postcodes into coordinates :
+        x_zipcode = Zipcode.objects.get(country_iso=countrycode_x, zip_code=postcode_x)
+        x_lat = x_zipcode.x_lat
+        x_lon = x_zipcode.x_lon
+
+        y_zipcode = Zipcode.objects.get(country_iso=countrycode_y, zip_code=postcode_y)
+        y_lat = y_zipcode.y_lat
+        y_lon = y_zipcode.y_lon
+
+        # Distance crow :
+        locator = Locator
+        dist_crow = Locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
+
+        # Normalize the coordinates to match the grid :
+        x_lat_floored = math.floor(x_zipcode.x_lat)
+        x_lon_floored = math.floor(x_zipcode.x_lon)
+        y_lat_floored = math.floor(y_zipcode.y_lat)
+        y_lon_floored = math.floor(y_zipcode.y_lon)
+
+        # Try getting the distance between two points
+        # With first a,b=x,y, then a,b=y,x
+        dist = None
+
+        res = ZipDist.objects.list(a_lat = x_lat_floored, a_lon = x_lon_floored, b_lat = y_lat_floored, b_lon = y_lon_floored)
+        if len(res) == 0:
+            res = ZipDist.objects.list(a_lat = y_lat_floored, a_lon = y_lon_floored, b_lat = x_lat_floored, b_lon = x_lon_floored)
+
+            if len(res) == 0:
+                raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
+            else:
+                dist = res[1]
+        else:
+            dist = res[1]
+
+        ratio = float(dist.distance_route) / dist.distance_fly
+
+        return ratio * dist_crow
