@@ -44,6 +44,9 @@ class ZipDist(models.Model):
         y_lat_floored = math.floor(y_lat)
         y_lon_floored = math.floor(y_lon)
 
+        if x_lat_floored == y_lat_floored and x_lon_floored == y_lon_floored:
+            return dist_crow
+
         # Try getting the distance between two points
         # With first a,b=x,y, then a,b=y,x
         dist = None
@@ -55,9 +58,9 @@ class ZipDist(models.Model):
             if len(res) == 0:
                 raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
             else:
-                dist = res[1]
+                dist = res[0]
         else:
-            dist = res[1]
+            dist = res[0]
 
         ratio = float(dist.distance_route) / dist.distance_fly
 
