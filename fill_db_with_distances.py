@@ -74,7 +74,8 @@ for (a_id, a_square) in enumerate(keys):
         try:
             d_route = locator.distance_route_coords(a_coords, b_coords);
         except Exception as e:
-            print("ERROR : getting distance by route : " + str(e), file=sys.stderr)
+            counter -= 1
+            print("ERROR : getting distance by route : " + str(a_coords) + "," + str(b_coords) + " : " + str(e), file=sys.stderr)
             if e.errno == 2055:
                 (mydb, mydb_cursor) = connect_mydb()
             continue
@@ -83,7 +84,8 @@ for (a_id, a_square) in enumerate(keys):
             mydb_cursor.execute(INSERT_INTO_MYSQL, [a_square[0], a_square[1], b_square[0], b_square[1], d_crow, d_route])
             mydb.commit()
         except Exception as e:
-            print("ERROR : inserting in db : " + str(e), file=sys.stderr)
+            counter -= 1
+            print("ERROR : inserting in db : " + str(a_coords) + "," + str(b_coords) + " : " + str(e), file=sys.stderr)
             continue
 
 print("Stopped at zipcode nb : " + str(counter))
