@@ -35,8 +35,8 @@ class ZipDist(models.Model):
         y_lon = y_zipcode.lon
 
         # Distance crow :
-        locator = Locator
-        dist_crow = Locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
+        locator = NominatimLibrary.Locator
+        dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
         # Normalize the coordinates to match the grid :
         x_lat_floored = math.floor(x_lat)
