@@ -27,22 +27,22 @@ class ZipDist(models.Model):
     def distance_between_postcodes(postcode_x, countrycode_x, postcode_y, countrycode_y):
         # Transform postcodes into coordinates :
         x_zipcode = Zipcode.objects.get(country_iso=countrycode_x, zip_code=postcode_x)
-        x_lat = x_zipcode.x_lat
-        x_lon = x_zipcode.x_lon
+        x_lat = x_zipcode.lat
+        x_lon = x_zipcode.lon
 
         y_zipcode = Zipcode.objects.get(country_iso=countrycode_y, zip_code=postcode_y)
-        y_lat = y_zipcode.y_lat
-        y_lon = y_zipcode.y_lon
+        y_lat = y_zipcode.lat
+        y_lon = y_zipcode.lon
 
         # Distance crow :
         locator = Locator
         dist_crow = Locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
         # Normalize the coordinates to match the grid :
-        x_lat_floored = math.floor(x_zipcode.x_lat)
-        x_lon_floored = math.floor(x_zipcode.x_lon)
-        y_lat_floored = math.floor(y_zipcode.y_lat)
-        y_lon_floored = math.floor(y_zipcode.y_lon)
+        x_lat_floored = math.floor(x_lat)
+        x_lon_floored = math.floor(x_lon)
+        y_lat_floored = math.floor(y_lat)
+        y_lon_floored = math.floor(y_lon)
 
         # Try getting the distance between two points
         # With first a,b=x,y, then a,b=y,x
