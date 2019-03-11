@@ -35,7 +35,7 @@ class ZipDist(models.Model):
         y_lon = y_zipcode.lon
 
         # Distance crow :
-        locator = NominatimLibrary.Locator
+        locator = NominatimLibrary.Locator()
         dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
         # Normalize the coordinates to match the grid :
@@ -48,9 +48,9 @@ class ZipDist(models.Model):
         # With first a,b=x,y, then a,b=y,x
         dist = None
 
-        res = ZipDist.objects.list(a_lat = x_lat_floored, a_lon = x_lon_floored, b_lat = y_lat_floored, b_lon = y_lon_floored)
+        res = ZipDist.objects.filter(a_lat = x_lat_floored, a_lon = x_lon_floored, b_lat = y_lat_floored, b_lon = y_lon_floored)
         if len(res) == 0:
-            res = ZipDist.objects.list(a_lat = y_lat_floored, a_lon = y_lon_floored, b_lat = x_lat_floored, b_lon = x_lon_floored)
+            res = ZipDist.objects.filter(a_lat = y_lat_floored, a_lon = y_lon_floored, b_lat = x_lat_floored, b_lon = x_lon_floored)
 
             if len(res) == 0:
                 raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
