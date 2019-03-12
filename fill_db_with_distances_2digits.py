@@ -48,7 +48,7 @@ res = {}
 for city in elms:
     country = city[1]
     zipcode = city[2]
-    contry_2digits = country + zipcode[:2]
+    country_2digits = country + zipcode[:2]
 
     # We still use the lat and lon to filter european cities and calculate centroid
     lat = city[3]
