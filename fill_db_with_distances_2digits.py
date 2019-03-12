@@ -17,7 +17,7 @@ DB_MySQL_NAME = "geonom"
 DB_MySQL_USER = "admin"
 DB_MySQL_TABLE_ZIP = "datamodel_zipcode"
 DB_MySQL_TABLE_DIST = "datamodel_zipdist"
-INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE_DIST + " VALUES (id, %s, %s, %s, %s, %s, %s);"
+INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE_DIST + " VALUES (id, %s, %s, %s, %s);"
 
 QUERY_POSTCODES_COUNTRIES = "SELECT * FROM " + DB_MySQL_TABLE_ZIP + ";"
 
@@ -46,28 +46,39 @@ print("Filtering squares containing postcodes...")
 
 res = {}
 for city in elms:
-    lat = math.floor(city[3])
-    lon = math.floor(city[4])
+    country = city[1]
+    zipcode = city[2]
+    contry_2digits = country + zipcode[:2]
+
+    # We still use the lat and lon to filter european cities and calculate centroid
+    lat = city[3]
+    lon = city[4]
     if lat >= LAT_MIN and lat <= LAT_MAX and lon >= LON_MIN and lon <= LON_MAX:
-        res[(lat,lon)] = True
+        n,sum_lat,sum_lon = res[(country_2digits, lat, lon)]
+        res[(country_2digits, lat, lon)] = (n+1,sum_lat+lat,sum_lon+lon)
 
 keys = res.keys()
-print("We are using " + str(len(keys)) + " instead of " + str((LON_MAX-LON_MIN)*(LAT_MAX-LAT_MIN)))
+print("We are using " + str(len(keys)) + " areas.")
 nb_paths = math.factorial(len(keys))/(math.factorial(2)*math.factorial(len(keys)-2))
 print("This makes a total number of paths of : " + str(nb_paths))
 
-print("Calculating distances between squares...")
+print("Calculating average centroid of each area...")
+for in keys:
+    n,sum_lat,sum_lon = res[keys]
+    res[key] = (float(sum_lat)/n,float(sum_lon)/n)
+
+print("Calculating distances between areas...")
 counter = 0
 
-for (a_id, a_square) in enumerate(keys):
-    a_coords = (a_square[0] + CENTROID_SHIFT, a_square[1] + CENTROID_SHIFT)
-    for (b_id, b_square) in enumerate(keys):
+for (a_id, a_country_2digits) in enumerate(keys):
+    a_coords = res[(a_id, a_country_2digits)]
+    for (b_id, b_country_2digits) in enumerate(keys):
         if b_id <= a_id:
             continue
 
         counter += 1
 
-        b_coords = (b_square[0] + CENTROID_SHIFT, b_square[1] + CENTROID_SHIFT)
+        b_coords = res[(b_id, b_square)]
 
         d_crow = locator.distance_crow_coords(a_coords, b_coords);
 
@@ -75,17 +86,17 @@ for (a_id, a_square) in enumerate(keys):
             d_route = locator.distance_route_coords(a_coords, b_coords);
         except Exception as e:
             counter -= 1
-            print("ERROR : getting distance by route : " + str(a_coords) + "," + str(b_coords) + " : " + str(e), file=sys.stderr)
+            print("ERROR : getting distance by route : " + str(a_country_2digits) + "," + str(b_country_2digits) + " : " + str(e), file=sys.stderr)
             if e.errno == 2055:
                 (mydb, mydb_cursor) = connect_mydb()
             continue
 
         try:
-            mydb_cursor.execute(INSERT_INTO_MYSQL, [a_square[0], a_square[1], b_square[0], b_square[1], d_crow, d_route])
+            mydb_cursor.execute(INSERT_INTO_MYSQL, [a_country_2digits, b_country_2digits, d_crow, d_route])
             mydb.commit()
         except Exception as e:
             counter -= 1
-            print("ERROR : inserting in db : " + str(a_coords) + "," + str(b_coords) + " : " + str(e), file=sys.stderr)
+            print("ERROR : inserting in db : " + str(a_country_2digits) + "," + str(b_country_2digits) + " : " + str(e), file=sys.stderr)
             continue
 
 print("Stopped at zipcode nb : " + str(counter))
