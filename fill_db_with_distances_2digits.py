@@ -16,7 +16,7 @@ CENTROID_SHIFT = 0.5
 DB_MySQL_NAME = "geonom"
 DB_MySQL_USER = "admin"
 DB_MySQL_TABLE_ZIP = "datamodel_zipcode"
-DB_MySQL_TABLE_DIST = "datamodel_zipdist"
+DB_MySQL_TABLE_DIST = "datamodel_zipdist_2digits"
 INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE_DIST + " VALUES (id, %s, %s, %s, %s);"
 
 QUERY_POSTCODES_COUNTRIES = "SELECT * FROM " + DB_MySQL_TABLE_ZIP + ";"
