@@ -63,8 +63,8 @@ nb_paths = math.factorial(len(keys))/(math.factorial(2)*math.factorial(len(keys)
 print("This makes a total number of paths of : " + str(nb_paths))
 
 print("Calculating average centroid of each area...")
-for in keys:
-    n,sum_lat,sum_lon = res[keys]
+for key in keys:
+    n,sum_lat,sum_lon = res[key]
     res[key] = (float(sum_lat)/n,float(sum_lon)/n)
 
 print("Calculating distances between areas...")
