@@ -54,7 +54,12 @@ for city in elms:
     lat = city[3]
     lon = city[4]
     if lat >= LAT_MIN and lat <= LAT_MAX and lon >= LON_MIN and lon <= LON_MAX:
-        n,sum_lat,sum_lon = res[country_2digits]
+        prev_sums = res.get(country_2digits)
+
+        n,sum_lat,sum_lon = (0,0,0)
+        if prev_sums != None:
+            n,sum_lat,sum_lon = prev_sums
+            
         res[country_2digits] = (n+1,sum_lat+lat,sum_lon+lon)
 
 keys = res.keys()
