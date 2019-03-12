@@ -76,14 +76,14 @@ print("Calculating distances between areas...")
 counter = 0
 
 for (a_id, a_country_2digits) in enumerate(keys):
-    a_coords = res[(a_id, a_country_2digits)]
+    a_coords = res[a_country_2digits]
     for (b_id, b_country_2digits) in enumerate(keys):
         if b_id <= a_id:
             continue
 
         counter += 1
 
-        b_coords = res[(b_id, b_square)]
+        b_coords = res[b_country_2digits]
 
         d_crow = locator.distance_crow_coords(a_coords, b_coords);
 
