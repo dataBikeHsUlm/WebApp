@@ -17,14 +17,19 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from  django.urls import include
-
+#new
+from django.views.generic import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(r'distance/',TemplateView.as_view(template_name='distance/index.html')),
    # path('test/', views.index, name='index'),	
 ]
 
 urlpatterns += [
-    path('', include('crow.urls'))
+    path('', include('crow.urls')),
+
 ]
+
 #Add URL maps to redirect the base URL to our application
 #urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

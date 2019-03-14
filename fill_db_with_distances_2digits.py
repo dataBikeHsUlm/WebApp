@@ -91,7 +91,7 @@ for (a_id, a_country_2digits) in enumerate(keys):
             d_route = locator.distance_route_coords(a_coords, b_coords);
         except Exception as e:
             counter -= 1
-            print("ERROR : getting distance by route : " + str(a_country_2digits) + "," + str(b_country_2digits) + " : " + str(e), file=sys.stderr)
+            print("ERROR : getting distance by route : " + str(a_country_2digits) + "," + str(b_country_2digits) + "," + str(a_coords) + "," + str(b_coords) + " : " + str(e), file=sys.stderr)
             if e.errno == 2055:
                 (mydb, mydb_cursor) = connect_mydb()
             continue
@@ -101,7 +101,7 @@ for (a_id, a_country_2digits) in enumerate(keys):
             mydb.commit()
         except Exception as e:
             counter -= 1
-            print("ERROR : inserting in db : " + str(a_country_2digits) + "," + str(b_country_2digits) + " : " + str(e), file=sys.stderr)
+            print("ERROR : inserting in db : " + str(a_country_2digits) + "," + str(b_country_2digits) + "," + str(a_coords) + "," + str(b_coords) + " : " + str(e), file=sys.stderr)
             continue
 
 print("Stopped at zipcode nb : " + str(counter))
