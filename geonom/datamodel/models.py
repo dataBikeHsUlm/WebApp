@@ -157,28 +157,39 @@ def test_distances_dbs(nb_tests):
     avg_g10 = []
     avg_2di = []
 
+    err_count = 0
+
     for i in range(nb_tests):
         zc_x = zipcodes[randrange(nb_zipcodes)]
         zc_y = zipcodes[randrange(nb_zipcodes)]
 
         dist_crow = locator.distance_crow_coords((zc_x.lat,zc_x.lon),(zc_y.lat,zc_y.lon))
-        dist_route = locator.distance_route_coords((zc_x.lat,zc_x.lon),(zc_y.lat,zc_y.lon))
-        dist_grid_1 = ZipDist.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
-        dist_grid_10 = ZipDist_grid_10.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
-        dist_2digits = ZipDist_2digits.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
+        dist_route = None
+        try:
+            dist_route = locator.distance_route_coords((zc_x.lat,zc_x.lon),(zc_y.lat,zc_y.lon))
 
-        distPercent = lambda d: math.floor(d * 100/float(dist_route))
+            dist_grid_1 = ZipDist.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
+            dist_grid_10 = ZipDist_grid_10.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
+            dist_2digits = ZipDist_2digits.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
 
-        dpcro   = distPercent(dist_crow)
-        dpgr1  = distPercent(dist_grid_1)
-        dpg10 = distPercent(dist_grid_10)
-        dp2di  = distPercent(dist_2digits)
-        avg_cro.append(dpcro)
-        avg_gr1.append(dpgr1)
-        avg_g10.append(dpg10)
-        avg_2di.append(dp2di)
+            distPercent = lambda d: math.floor(d * 100/float(dist_route))
 
-        print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, y.country_iso, dist_route, dpcro, dpgr1, dpg10, dp2di))
+            dpcro  = distPercent(dist_crow)
+            dpgr1  = distPercent(dist_grid_1)
+            dpg10  = distPercent(dist_grid_10)
+            dp2di  = distPercent(dist_2digits)
+
+            avg_cro.append(dpcro)
+            avg_gr1.append(dpgr1)
+            avg_g10.append(dpg10)
+            avg_2di.append(dp2di)
+
+            print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, y.country_iso, dist_route, dpcro, dpgr1, dpg10, dp2di))
+        raise Exception as e:
+            err_count += 1
 
 
-    print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("","","","","", avg_cro/nb_tests, dpgr1/nb_tests, dpg10/nb_tests, dp2di/nb_tests))
+    nb_t_final = len(avg_cro)
+    print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("","","","","", avg_cro/nb_t_final, dpgr1/nb_t_final, dpg10/nb_t_final, dp2di/nb_t_final))
+
+    print("Number of errors with Graphhopper : " + str(err_count) + " , " + str (err_count * 100 / nb_tests))
