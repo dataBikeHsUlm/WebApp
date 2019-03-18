@@ -1,6 +1,6 @@
 from django.db import models
 import math
-import NominatimLibrary
+from NominatimLibrary import Locator
 from random import randrange
 
 class NotFoundException(Exception):
@@ -12,7 +12,7 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
     (y_lat, y_lon, y_lat_grid, y_lon_grid) = DbClass.get_latlon_grid(postcode_y, countrycode_y)
 
     # Distance crow :
-    locator = NominatimLibrary.Locator()
+    locator = Locator()
     dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
     if x_lat_grid == y_lat_grid and x_lon_grid == y_lon_grid:
