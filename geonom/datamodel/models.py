@@ -189,7 +189,7 @@ def test_distances_dbs(nb_tests):
             err_count += 1
 
 
-    nb_t_final = len(avg_cro)
+    nb_t_final = nb_tests - err_count
     print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("","","","","", avg_cro/nb_t_final, dpgr1/nb_t_final, dpg10/nb_t_final, dp2di/nb_t_final))
 
     print("Number of errors with Graphhopper : " + str(err_count) + " , " + str (err_count * 100 / nb_tests))
