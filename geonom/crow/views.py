@@ -30,7 +30,7 @@ class Distance(TemplateView):
             to_iso = form.cleaned_data['to_iso']
             d = ZipDist.distance_between_postcodes(from_zip, from_iso, to_zip, to_iso) 
             distance = str(d) 
-            distance_dict = {'d': distance}
+            distance_dict = {'distance_dict': distance}
 
         return render (request, self.template_name, distance_dict)
 
