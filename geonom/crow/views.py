@@ -36,7 +36,7 @@ class Distance(TemplateView):
             from_coords = (from_zipcode_obj.lat, from_zipcode_obj.lon)
             to_zipcode_obj = Zipcode.objects.get(country_iso=to_iso, zip_code=to_zip)
             to_coords = (to_zipcode_obj.lat, to_zipcode_obj.lon)
-            d_crow = locator.distance_crow_addrs(from_coords, to_coords)
+            d_crow = locator.distance_crow_coords(from_coords, to_coords)
 
             distance_dict = {'distance_route': str(d_route), 'distance_crow': str(d_crow)}
 
