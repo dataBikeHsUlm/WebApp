@@ -32,7 +32,7 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
 
         if len(res) == 0:
             # raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
-            return dist_crow
+            return dist_crow * AVERAGE_RATIO
         else:
             dist = res[0]
     else:
@@ -137,7 +137,7 @@ class ZipDist_2digits(models.Model):
 
             if len(res) == 0:
                 # raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
-                return dist_crow
+                return dist_crow * AVERAGE_RATIO
             else:
                 dist = res[0]
         else:
