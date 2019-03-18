@@ -59,7 +59,7 @@ for city in elms:
         n,sum_lat,sum_lon = (0,0,0)
         if prev_sums != None:
             n,sum_lat,sum_lon = prev_sums
-            
+
         res[country_2digits] = (n+1,sum_lat+lat,sum_lon+lon)
 
 keys = res.keys()
