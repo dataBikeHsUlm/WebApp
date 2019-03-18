@@ -96,4 +96,4 @@ for (a_id, a_square) in enumerate(keys):
             print("ERROR : inserting in db : " + str(a_coords) + "," + str(b_coords) + " : " + str(e), file=sys.stderr)
             continue
 
-print("Stopped at zipcode nb : " + str(counter))
+print("Stopped at zipcode nb : " + str(counter) + ", the estimated number was : " + str(nb_paths))
