@@ -117,7 +117,7 @@ class ZipDist_2digits(models.Model):
         y_country_2digits = countrycode_y + postcode_y[:2]
 
         # Distance crow :
-        locator = NominatimLibrary.Locator()
+        locator = Locator()
         dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
         if x_country_2digits == y_country_2digits:
