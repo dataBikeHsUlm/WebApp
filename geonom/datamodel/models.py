@@ -7,6 +7,9 @@ from random import randrange
 # When error with normal way, return dist_crow * AVERAGE_RATIO.
 AVERAGE_RATIO = 0.76
 
+def average_ratio(dist_crow):
+    return dist_crow / AVERAGE_RATIO
+
 class NotFoundException(Exception):
     pass
 
@@ -20,7 +23,7 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
     dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
     if x_lat_grid == y_lat_grid and x_lon_grid == y_lon_grid:
-        return dist_crow * AVERAGE_RATIO
+        return average_ratio(dist_crow)
 
     # Try getting the distance between two points
     # With first a,b=x,y, then a,b=y,x
@@ -32,7 +35,7 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
 
         if len(res) == 0:
             # raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
-            return dist_crow * AVERAGE_RATIO
+            return average_ratio(dist_crow)
         else:
             dist = res[0]
     else:
@@ -125,7 +128,7 @@ class ZipDist_2digits(models.Model):
         dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
         if x_country_2digits == y_country_2digits:
-            return dist_crow * AVERAGE_RATIO
+            return average_ratio(dist_crow)
 
         # Try getting the distance between two points
         # With first a,b=x,y, then a,b=y,x
@@ -137,7 +140,7 @@ class ZipDist_2digits(models.Model):
 
             if len(res) == 0:
                 # raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
-                return dist_crow * AVERAGE_RATIO
+                return average_ratio(dist_crow)
             else:
                 dist = res[0]
         else:
