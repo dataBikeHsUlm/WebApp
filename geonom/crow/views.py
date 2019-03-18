@@ -40,6 +40,6 @@ class Distance(TemplateView):
 
             distance_dict = {'distance_route': str(d_route), 'distance_crow': str(d_crow)}
 
-        return render (request, self.template_name, distance_dict)
+        return render (request, self.template_name, {'form':form},distance_dict)
 
 
