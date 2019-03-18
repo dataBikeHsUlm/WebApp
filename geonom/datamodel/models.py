@@ -144,13 +144,16 @@ class ZipDist_2digits(models.Model):
         return ratio * dist_crow
 
 def test_distances_dbs(nb_tests):
+    TABLE = "%15s | %2s | %15s | %2s || %5s || %3s | %3s | %3s | %3s |"
+
     zipcodes = Zipcode.objects.all();
     nb_zipcodes = len(zipcodes)
 
     locator = Locator()
 
 
-    print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("x_zip","xc","y_zip","yc", "route", "cro", "gr1", "g10", "2di"))
+    print(TABLE % ("x_zip","xc","y_zip","yc", "route", "cro", "gr1", "g10", "2di"))
+    print(TABLE % ("","","","","","","","",""))
 
     avg_cro = 0
     avg_gr1 = 0
@@ -184,12 +187,14 @@ def test_distances_dbs(nb_tests):
             avg_g10 += dpg10
             avg_2di += dp2di
 
-            print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, y.country_iso, dist_route, dpcro, dpgr1, dpg10, dp2di))
+            print(TABLE % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, zc_y.country_iso, math.floor(dist_route), dpcro, dpgr1, dpg10, dp2di))
         except Exception as e:
+            print((TABLE + " error getting route") % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, zc_y.country_iso, "", "", "", "", ""))
             err_count += 1
 
 
     nb_t_final = nb_tests - err_count
-    print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("","","","","", avg_cro/nb_t_final, dpgr1/nb_t_final, dpg10/nb_t_final, dp2di/nb_t_final))
+    print(TABLE % ("","","","","","","","",""))
+    print(TABLE % ("","","","","", int(avg_cro/nb_t_final), int(avg_gr1/nb_t_final), int(avg_g10/nb_t_final), int(avg_2di/nb_t_final)))
 
-    print("Number of errors with Graphhopper : " + str(err_count) + " , " + str (err_count * 100 / nb_tests))
+    print("Number of errors with Graphhopper : " + str(err_count) + " , " + str(int(err_count * 100 / nb_tests)) + "%.")
