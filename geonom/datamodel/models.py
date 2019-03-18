@@ -152,10 +152,10 @@ def test_distances_dbs(nb_tests):
 
     print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("x_zip","xc","y_zip","yc", "route", "cro", "gr1", "g10", "2di"))
 
-    avg_cro = []
-    avg_gr1 = []
-    avg_g10 = []
-    avg_2di = []
+    avg_cro = 0
+    avg_gr1 = 0
+    avg_g10 = 0
+    avg_2di = 0
 
     err_count = 0
 
@@ -179,10 +179,10 @@ def test_distances_dbs(nb_tests):
             dpg10  = distPercent(dist_grid_10)
             dp2di  = distPercent(dist_2digits)
 
-            avg_cro.append(dpcro)
-            avg_gr1.append(dpgr1)
-            avg_g10.append(dpg10)
-            avg_2di.append(dp2di)
+            avg_cro += dpcro
+            avg_gr1 += dpgr1
+            avg_g10 += dpg10
+            avg_2di += dp2di
 
             print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, y.country_iso, dist_route, dpcro, dpgr1, dpg10, dp2di))
         except Exception as e:
