@@ -1,6 +1,7 @@
 from django.db import models
 import math
 import NominatimLibrary
+from random import randrange
 
 class NotFoundException(Exception):
     pass
@@ -141,3 +142,43 @@ class ZipDist_2digits(models.Model):
         ratio = float(dist.distance_route) / dist.distance_fly
 
         return ratio * dist_crow
+
+def test_distances_dbs(nb_tests):
+    zipcodes = Zipcode.objects.all();
+    nb_zipcodes = len(zipcodes)
+
+    locator = Locator()
+
+
+    print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("x_zip","xc","y_zip","yc", "route", "cro", "gr1", "g10", "2di"))
+
+    avg_cro = []
+    avg_gr1 = []
+    avg_g10 = []
+    avg_2di = []
+
+    for i in range(nb_tests):
+        zc_x = zipcodes[randrange(nb_zipcodes)]
+        zc_y = zipcodes[randrange(nb_zipcodes)]
+
+        dist_crow = locator.distance_crow_coords((zc_x.lat,zc_x.lon),(zc_y.lat,zc_y.lon))
+        dist_route = locator.distance_route_coords((zc_x.lat,zc_x.lon),(zc_y.lat,zc_y.lon))
+        dist_grid_1 = ZipDist.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
+        dist_grid_10 = ZipDist_grid_10.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
+        dist_2digits = ZipDist_2digits.distance_between_postcodes(zc_x.zip_code, zc_x.country_iso, zc_y.zip_code, zc_y.country_iso)
+
+        distPercent = lambda d: math.floor(d * 100/float(dist_route))
+
+        dpcro   = distPercent(dist_crow)
+        dpgr1  = distPercent(dist_grid_1)
+        dpg10 = distPercent(dist_grid_10)
+        dp2di  = distPercent(dist_2digits)
+        avg_cro.append(dpcrow)
+        avg_gr1.append(dpgr1)
+        avg_g10.append(dpg10)
+        avg_2di.append(dp2di)
+
+        print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, y.country_iso, dist_route, dpcro, dpgr1, dpg10, dp2di))
+
+
+    print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % ("","","","","", avg_cro/nb_tests, dpgr1/nb_tests, dpg10/nb_tests, dp2di/nb_tests))
