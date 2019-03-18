@@ -3,6 +3,10 @@ import math
 from NominatimLibrary import Locator
 from random import randrange
 
+# AVERAGE_RATIO is the average ratio dist_route/dist_crow on a random set of postcode.
+# When error with normal way, return dist_crow * AVERAGE_RATIO.
+AVERAGE_RATIO = 0.76
+
 class NotFoundException(Exception):
     pass
 
@@ -16,7 +20,7 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
     dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
     if x_lat_grid == y_lat_grid and x_lon_grid == y_lon_grid:
-        return dist_crow
+        return dist_crow * AVERAGE_RATIO
 
     # Try getting the distance between two points
     # With first a,b=x,y, then a,b=y,x
@@ -121,7 +125,7 @@ class ZipDist_2digits(models.Model):
         dist_crow = locator.distance_crow_coords((x_lat,x_lon),(y_lat,y_lon))
 
         if x_country_2digits == y_country_2digits:
-            return dist_crow
+            return dist_crow * AVERAGE_RATIO
 
         # Try getting the distance between two points
         # With first a,b=x,y, then a,b=y,x
