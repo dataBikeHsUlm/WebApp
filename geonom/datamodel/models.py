@@ -173,7 +173,7 @@ def test_distances_dbs(nb_tests):
         dpgr1  = distPercent(dist_grid_1)
         dpg10 = distPercent(dist_grid_10)
         dp2di  = distPercent(dist_2digits)
-        avg_cro.append(dpcrow)
+        avg_cro.append(dpcro)
         avg_gr1.append(dpgr1)
         avg_g10.append(dpg10)
         avg_2di.append(dp2di)
