@@ -80,7 +80,7 @@
             <h3><label class="label label-default col-sm-2" for="iso">Direct:</label></h3>
         </div>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="result" placeholder="result" name="result" value="{{ distance_crow }}">
+                <input type="text" class="form-control" id="result" placeholder="result" name="result" value="{{ distance_crow|floatformat:2  }} km">
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@
             <h3><label class="label label-default col-sm-2" for="iso">By route:</label></h3>
         </div>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="resultRoute" placeholder="result" name="result" value="{{ distance_route }}">
+            <input type="text" class="form-control" id="resultRoute" placeholder="result" name="result" value="{{ distance_route|floatformat:2 }} km">
         </div>
     </div>
 </div>
