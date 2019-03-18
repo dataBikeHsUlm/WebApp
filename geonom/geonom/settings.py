@@ -25,7 +25,7 @@ SECRET_KEY = 'b-$bis8y@j5af$q+!xl=@(r#fm*6+huzo!ny^qk!qabkbj36hw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['141.59.29.115','i-nominatim-01.informatik.hs-ulm.de']
+ALLOWED_HOSTS = ['0.0.0.0','localhost','141.59.29.115','i-nominatim-01.informatik.hs-ulm.de']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crow.apps.CrowConfig',
     'datamodel.apps.DatamodelConfig',
     'crispy_forms',
+    'bootstrap3'
 ]
 
 
@@ -128,5 +129,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-
+STATIC_ROOT = '/var/www/html/geonom/crow'
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    "/var/www/html/geonom/crow/static",
+)
+
+
+BOOTSTRAP3 = {
+    "theme_url": "//example.com/theme.css",
+    "javascript_in_head": True,
+    "required_css_class": "bootstrap3-req",
+    "error_css_class": "bootstrap3-err",
+    "success_css_class": "bootstrap3-bound",
+}

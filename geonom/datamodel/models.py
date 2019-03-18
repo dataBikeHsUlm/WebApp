@@ -55,6 +55,11 @@ class ZipDist(models.Model):
     b_lon = models.IntegerField()
     distance_fly = models.FloatField()
     distance_route = models.FloatField()
+    """
+       this will be printed when when calling an object of ZipDist
+    """
+    def __str__(self):
+        return "Distance as the crow flies: " + str(self.distance_fly)
 
     def distance_between_postcodes(postcode_x, countrycode_x, postcode_y, countrycode_y):
         f = lambda postcode, countrycode:

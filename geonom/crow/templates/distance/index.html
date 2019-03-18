@@ -1,0 +1,146 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xi$
+
+  <title>Distances</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'style.css'%}"> 
+    <!--<style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+            height: 20px; /* Set the fixed height of the footer here */
+            line-height:20px; /* Vertically center the text there */
+            background-color: 	#F0FFF0;
+        }
+        #res{
+            border-top: 1px solid;
+            border-color: #999999;
+            margin-top: 10px;
+            height: 150px;
+            background-color:#CCCCCC;
+        }
+        #jumbo{
+            background-image: url({% static 'crow/img/routes.png' %});
+	color:#FFFFFF;
+
+        }
+    </style>-->
+</head>
+<body>
+
+<div class="jumbotron p-4 p-md-5 text-white rounded" id="jumbo">
+
+ <!-- <img src="{% static 'crow/img/routes.png' %}"/> -->
+    <h2>Get Distances according to postalcodes and ISO codes</h2>
+    <p>This will compute the direct line between two locations as well as distances by route</p>
+
+</div>
+
+<div class="container-fluid" >
+
+    <form class="form-horizontal" action="/action_page.php">
+
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">From:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="zip" placeholder="postalcode" name="zip">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">ISO:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="iso" placeholder="ISO code" name="iso">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">To:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="zip2" placeholder="postalcode" name="zip">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">ISO:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="iso2" placeholder="ISO code" name="iso">
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-sm-8 col-md-offset-1">
+                    <div class="form-group">
+                        <div >
+                            <button type="submit" class="btn" style="background-color:#660066; color: #FFFFFF">Get distance</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+
+    </form>
+</div>
+<div id="res">
+<div class="row" >
+    <div class="col-sm-8" style="margin-left: 10px">
+        <div class="form-group">
+            <h3><label class="label label-default col-sm-2" for="iso">Direct:</label></h3>
+        </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="result" placeholder="result" name="result">
+            </div>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-sm-8" style="margin-left: 10px">
+        <div class="form-group">
+            <h3><label class="label label-default col-sm-2" for="iso">By route:</label></h3>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="resultRoute" placeholder="result" name="result">
+        </div>
+    </div>
+</div>
+</div>
+</body>
+<footer class="footer">
+<div class="container-fluid">
+    <span class="text-muted">Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a></span>
+</div>
+</footer>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE$
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9$
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6Vr$
+        </body>
+        </html>
+
