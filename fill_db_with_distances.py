@@ -51,13 +51,14 @@ print("Filtering squares containing postcodes...")
 
 res = {}
 for city in elms:
-    lat = math.floor(city[3] / STEP)
-    lon = math.floor(city[4] / STEP)
+    lat,lon = city[3],city[4]
+    lat_grid = math.floor(lat / STEP)
+    lon_grid = math.floor(lon / STEP)
     if lat >= LAT_MIN and lat <= LAT_MAX and lon >= LON_MIN and lon <= LON_MAX:
-        res[(lat,lon)] = True
+        res[(lat_grid,lon_grid)] = True
 
 keys = res.keys()
-print("We are using " + str(len(keys)) + " instead of " + str((LON_MAX-LON_MIN)*(LAT_MAX-LAT_MIN)*STEP*STEP))
+print("We are using " + str(len(keys)) + " instead of " + str((LON_MAX-LON_MIN)*(LAT_MAX-LAT_MIN)/(STEP*STEP)))
 nb_paths = math.factorial(len(keys))/(math.factorial(2)*math.factorial(len(keys)-2))
 print("This makes a total number of paths of : " + str(nb_paths))
 
