@@ -185,7 +185,7 @@ def test_distances_dbs(nb_tests):
             avg_2di.append(dp2di)
 
             print("%7s,%2s | %7s,%2s | %5s | %3s | %3s | %3s | %3s" % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, y.country_iso, dist_route, dpcro, dpgr1, dpg10, dp2di))
-        raise Exception as e:
+        except Exception as e:
             err_count += 1
 
 
