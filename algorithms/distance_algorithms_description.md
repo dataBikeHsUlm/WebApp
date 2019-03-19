@@ -27,15 +27,12 @@ Given two postcodes (postcode, country iso code) :
 
 The orinal proposal was to use the 2 first digits of the postcodes to define the *zones*. By *"2 first digits"*, I think was meant : *Administrative region* (such as *Bundesland* in Germany, *Département* in France or *State* in the U.S.A.) ; and indeed in France and Germany, these *zones* are indicated by the two first digits of the postcodes.
 
-This, however, cannot be generalized to every country in Europe, so I didn't want to just use the first two digits directly at first. I looked for a way to define admninistrative regions and their contained postcodes but couldn't find a proper solution for that.
+Although these regions are often used for shipping, transport and administration, a few reasons could create inaccuracies with this approach :
+- Not every country use the two first digits for their regions (for instance : if a country uses 3 digits and 305 is top north and 307 in the south, they would all be grouped under 30 in the middle of the country)
+- Regions don't have the same size in every countries, this could lead in very different accuracy depending on the country
+- Regions' shapes of the **admninistrative regions** aren't best suited for the distance of the centroids. (It is better if they are somewhat **round**).
 
-Another reason why I didn't think i would be good reason was the shapes of the **admninistrative regions** that weren't best suited for the distance of the centroids.
-For instance, we can look at the map of the German Bundesländer below, in the area between Bayern, Baden-Württemberg and Hessen : If the 2-digits algorithm is used, the Bavarian part would be placed at the Bavaria-centroid between Nürnberg and München and the cities around it in Hessen would be considered to be near Marburg which creates a distance of approximatelly 350km.
-
-![Map of Bundesländer between Bayern, Baden-Württemberg and Hessen](/home/gguy/Téléchargements/Scolaire/Ulm/project/git/WebApp/algorithms/boot_bat_temp_high_small.png)
-
-
-Finally, to implement this version of the algorithm, I used grouped every city with their forst two digits and country code, **even though this doesn't necessarily make sense for all countries, and can cause inaccuracies**.
+I looked for a way to define admninistrative regions and their contained postcodes but couldn't find a proper solution for that. Finally, to implement this version of the algorithm, I used grouped every city with their forst two digits and country code, **even though this doesn't necessarily make sense for all countries, and can cause inaccuracies**.
 
 To get the centroid of these *zones*, I just calculated the average of the postcodes coordinates. This is maybe not a good way, but I don't see any other solution.
 
