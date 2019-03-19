@@ -5,7 +5,7 @@ from random import randrange
 
 # AVERAGE_RATIO is the average ratio dist_route/dist_crow on a random set of postcode.
 # When error with normal way, return dist_crow * AVERAGE_RATIO.
-AVERAGE_RATIO = 0.76
+AVERAGE_RATIO = 1.0
 
 def average_ratio(dist_crow):
     return dist_crow / AVERAGE_RATIO
@@ -162,10 +162,10 @@ def test_distances_dbs(nb_tests):
     print(TABLE % ("x_zip","xc","y_zip","yc", "route", "cro", "gr1", "g10", "2di"))
     print(TABLE % ("","","","","","","","",""))
 
-    avg_cro = 0
-    avg_gr1 = 0
-    avg_g10 = 0
-    avg_2di = 0
+    avg_cro = []
+    avg_gr1 = []
+    avg_g10 = []
+    avg_2di = []
 
     err_count = 0
 
@@ -189,10 +189,10 @@ def test_distances_dbs(nb_tests):
             dpg10  = distPercent(dist_grid_10)
             dp2di  = distPercent(dist_2digits)
 
-            avg_cro += dpcro
-            avg_gr1 += dpgr1
-            avg_g10 += dpg10
-            avg_2di += dp2di
+            avg_cro.append(dpcro)
+            avg_gr1.append(dpgr1)
+            avg_g10.append(dpg10)
+            avg_2di.append(dp2di)
 
             print(TABLE % (zc_x.zip_code,zc_x.country_iso,zc_y.zip_code, zc_y.country_iso, math.floor(dist_route), dpcro, dpgr1, dpg10, dp2di))
         except Exception as e:
@@ -202,6 +202,11 @@ def test_distances_dbs(nb_tests):
 
     nb_t_final = nb_tests - err_count
     print(TABLE % ("","","","","","","","",""))
-    print(TABLE % ("","","","","", int(avg_cro/nb_t_final), int(avg_gr1/nb_t_final), int(avg_g10/nb_t_final), int(avg_2di/nb_t_final)))
+    print(TABLE % ("","","","","", int(sum(avg_cro)/nb_t_final), int(sum(avg_gr1)/nb_t_final), int(sum(avg_g10)/nb_t_final), int(sum(avg_2di)/nb_t_final)))
 
     print("Number of errors with Graphhopper : " + str(err_count) + " , " + str(int(err_count * 100 / nb_tests)) + "%.")
+
+    with open("tests_" + str(AVERAGE_RATIO) + ".txt", mode="w") as f:
+        avgs = zip(avg_cro,avg_gr1,avg_g10,avg_2di)
+        for avg in avgs:
+            f.write("%s,%s,%s,%s\n" % avg)
