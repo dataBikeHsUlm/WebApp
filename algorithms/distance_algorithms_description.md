@@ -1,5 +1,11 @@
 # Distance algorithms discription
 
+## Introduction
+
+In Europe (see below for the delimitations chosen), there are over 65700 cities. This makes over $2.1*10^9$ combinations, which **is too much** to be calculated and filled into the database.
+
+Furthemore, given the problem with Graphhopper described at the end of this document, using this directly would create errors for **nearly 45%** of combinations.
+
 ## Base algorithm
 
 ### Preparation
