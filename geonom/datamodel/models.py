@@ -35,7 +35,15 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
 
         if len(res) == 0:
             # raise NotFoundException((postcode_x, countrycode_x, postcode_y, countrycode_y))
-            return average_ratio(dist_crow)
+            try:
+                step = DbClass.get_step()
+                x_grid = ((x_lat_grid+0.5) * step,(x_lon_grid+0.5) * step)
+                y_grid = ((y_lat_grid+0.5) * step,(y_lon_grid+0.5) * step)
+                d_route = locator.distance_route_coords(x_grid,y_grid)
+                d_crow = locator.distance_crow_coords(x_grid,y_grid)
+                return dist_crow * float(d_route) / d_crow
+            except Exception as e:
+                return average_ratio(dist_crow)
         else:
             dist = res[0]
     else:
@@ -69,6 +77,9 @@ class ZipDist(models.Model):
     def __str__(self):
         return "Distance as the crow flies: " + str(self.distance_fly)
 
+    def get_step():
+        return 1.0
+
     def get_latlon_grid(postcode, countrycode):
         zipcode = Zipcode.objects.get(country_iso=countrycode, zip_code=postcode)
         lat = zipcode.lat
@@ -90,6 +101,9 @@ class ZipDist_grid_10(models.Model):
     b_lon = models.IntegerField()
     distance_fly = models.FloatField()
     distance_route = models.FloatField()
+
+    def get_step():
+        return 0.1
 
     def get_latlon_grid(postcode, countrycode):
         zipcode = Zipcode.objects.get(country_iso=countrycode, zip_code=postcode)

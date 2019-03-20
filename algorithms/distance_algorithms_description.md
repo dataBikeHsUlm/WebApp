@@ -72,3 +72,18 @@ Probably one of the best solutions would be to *circle around* the centroids unt
 For these reasons, when these errors happened, I first chose to default to the distance *as the crow flies*. After some tests, I found that, in average, the distance *as the crow flies* is **76%** of the distance by route. So I set the default to **dist_crow / 0.76**.
 
 > **Note :** This is also applied when the two requested postcodes are **in the same *zone***.
+
+---
+
+## Comparison on the accuracies of each methods
+
+I ran the different distances algorithms on 1000 randomly picked pair of postcodes. On those, **Graphhopper returned an error for 45% of them**.
+
+Here are the accuracies comparison on the 55% remaining, the values are in percentage of the route distance directly via Graphhopper :
+
+![Boxplots showing the accuracies of each methods with and without correction](/home/gguy/Téléchargements/Scolaire/Ulm/project/git/WebApp/algorithms/boxplots_accuracy.png)
+
+> **Note :** The Grid 0.1 database being not filled yet, its results are mostly the default to the crow and crow corrected.
+
+- We can see that the 2-digits algorithm provides much better results than the grid 1-degree one. This can be due to the Graphhopper error and to the fact that many 2-digits regions in Europe are smaller than the 1-degree squares.
+- The correction applied to solve the Graphhopper problem is quite efficient: all averages are around 100% and the data is concentrated on it.
