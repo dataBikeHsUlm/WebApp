@@ -42,6 +42,10 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
                 y_grid = ((y_lat_grid+0.5) * step,(y_lon_grid+0.5) * step)
                 d_route = locator.distance_route_coords(x_grid,y_grid)
                 d_crow = locator.distance_crow_coords(x_grid,y_grid)
+
+                new_line = DbClass(x_lat_grid,x_lon_grid,y_lat_grid,y_lon_grid,d_crow,d_route)
+                new_line.save()
+
                 return dist_crow * float(d_route) / d_crow
             except Exception as e:
                 return average_ratio(dist_crow)
