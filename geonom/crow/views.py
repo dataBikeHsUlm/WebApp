@@ -30,7 +30,7 @@ class Distance(TemplateView):
             from_iso = form.cleaned_data['from_iso']
             to_zip = form.cleaned_data['to_zip']
             to_iso = form.cleaned_data['to_iso']
-            d_route = ZipDist.distance_between_postcodes(from_zip, from_iso, to_zip, to_iso)
+            d_route = ZipDist_2digits.distance_between_postcodes(from_zip, from_iso, to_zip, to_iso)
 
             from_zipcode_obj = Zipcode.objects.get(country_iso=from_iso, zip_code=from_zip)
             from_coords = (from_zipcode_obj.lat, from_zipcode_obj.lon)
@@ -40,6 +40,6 @@ class Distance(TemplateView):
 
             distance_dict = {'distance_route': str(d_route), 'distance_crow': str(d_crow)}
 
-        return render (request, self.template_name, {'form':form},distance_dict)
+        return render (request, self.template_name,distance_dict)
 
 
