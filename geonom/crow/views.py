@@ -38,7 +38,7 @@ class Distance(TemplateView):
             to_coords = (to_zipcode_obj.lat, to_zipcode_obj.lon)
             d_crow = locator.distance_crow_coords(from_coords, to_coords)
 
-            distance_dict = {'distance_route': str(d_route), 'distance_crow': str(d_crow)}
+            distance_dict = {'distance_route': str(d_route), 'distance_crow': str(d_crow),'form':form}
 
         return render (request, self.template_name,distance_dict)
 
