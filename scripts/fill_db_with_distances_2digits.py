@@ -64,14 +64,22 @@ keys = res.keys()
 print("Calculating average centroid of each area...")
 for key in keys:
     points = res[key]
+
+    # Calculate average point :
     lats, lons = zip(*points)
     n = float(len(lats))
     avg_lats,avg_lons = sum(lats)/n,sum(lons)/n
+    avg_point = (avg_lats,avg_lons)
 
-    points.insert(0,(avg_lats, avg_lons))
+    # Sort points by distance to the centroid :
+    calc_dist = lambda (lat,lon): math.sqrt(float(avg_lats-lat)**2 + float(avg_lons-lon)**2)
+    sorted_points = sorted(points, key=calc_dist)
+
+    sorted_points.insert(0,(avg_lats, avg_lons))
     final_point = None
 
-    for point in points:
+    # Find the first working point :
+    for point in sorted_points:
         if locator.is_usable_point_graphhopper(point):
             final_point = point
             break
