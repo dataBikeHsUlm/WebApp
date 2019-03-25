@@ -62,6 +62,7 @@ for city in elms:
 keys = res.keys()
 
 print("Calculating average centroid of each area...")
+keys_to_delete = []
 for key in keys:
     points = res[key]
 
@@ -86,9 +87,12 @@ for key in keys:
 
     if final_point == None:
         print("ERROR : Couldn't find a working point for Graphhopper for key : " + str(key), file=sys.stderr)
-        del res[key]
+        keys_to_delete.append(key)
     else:
         res[key] = final_point
+
+for key in keys_to_delete:
+    del res[key]
 
 keys = res.keys()
 print("We are using " + str(len(keys)) + " areas.")
