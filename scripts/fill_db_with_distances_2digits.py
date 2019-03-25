@@ -54,23 +54,38 @@ for city in elms:
     lat = city[3]
     lon = city[4]
     if lat >= LAT_MIN and lat <= LAT_MAX and lon >= LON_MIN and lon <= LON_MAX:
-        prev_sums = res.get(country_2digits)
+        points = res.get(country_2digits) or []
+        points.append((lat,lon))
 
-        n,sum_lat,sum_lon = (0,0,0)
-        if prev_sums != None:
-            n,sum_lat,sum_lon = prev_sums
+        res[country_2digits] = points
 
-        res[country_2digits] = (n+1,sum_lat+lat,sum_lon+lon)
+keys = res.keys()
+
+print("Calculating average centroid of each area...")
+for key in keys:
+    points = res[key]
+    lats, lons = zip(*points)
+    n = float(len(lats))
+    avg_lats,avg_lons = sum(lats)/n,sum(lons)/n
+
+    points.insert(0,(avg_lats, avg_lons))
+    final_point = None
+
+    for point in points:
+        if locator.is_usable_point_graphhopper(point):
+            final_point = point
+            break
+
+    if final_point == None:
+        print("ERROR : Couldn't find a working point for Graphhopper for key : " + str(key), file=sys.stderr)
+        del res[key]
+    else:
+        res[key] = final_point
 
 keys = res.keys()
 print("We are using " + str(len(keys)) + " areas.")
 nb_paths = math.factorial(len(keys))/(math.factorial(2)*math.factorial(len(keys)-2))
 print("This makes a total number of paths of : " + str(nb_paths))
-
-print("Calculating average centroid of each area...")
-for key in keys:
-    n,sum_lat,sum_lon = res[key]
-    res[key] = (float(sum_lat)/n,float(sum_lon)/n)
 
 print("Calculating distances between areas...")
 counter = 0
