@@ -72,7 +72,7 @@ for key in keys:
     avg_point = (avg_lats,avg_lons)
 
     # Sort points by distance to the centroid :
-    calc_dist = lambda (lat,lon): math.sqrt(float(avg_lats-lat)**2 + float(avg_lons-lon)**2)
+    calc_dist = lambda point: math.sqrt(float(avg_lats-point[0])**2 + float(avg_lons-point[0])**2)
     sorted_points = sorted(points, key=calc_dist)
 
     sorted_points.insert(0,(avg_lats, avg_lons))
