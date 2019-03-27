@@ -12,6 +12,13 @@ LAT_MIN = 35
 LAT_MAX = 71
 CENTROID_SHIFT = 0.5
 
+# For circling around centroid :
+CIRCLING_STEP_RADIUS = 0.01
+CIRCLING_STEP_ANGLE = 0.1
+RADIUS_MAX=3
+USE_POSTCODES=True
+USE_CIRCLING=True
+
 # MySQL
 DB_MySQL_NAME = "geonom"
 DB_MySQL_USER = "admin"
@@ -60,6 +67,7 @@ for city in elms:
         res[country_2digits] = points
 
 keys = res.keys()
+old_keys_len = str(len(keys))
 
 print("Calculating average centroid of each area...")
 keys_to_delete = []
@@ -72,18 +80,43 @@ for key in keys:
     avg_lats,avg_lons = sum(lats)/n,sum(lons)/n
     avg_point = (avg_lats,avg_lons)
 
-    # Sort points by distance to the centroid :
-    calc_dist = lambda point: math.sqrt(float(avg_lats-point[0])**2 + float(avg_lons-point[0])**2)
-    sorted_points = sorted(points, key=calc_dist)
-
-    sorted_points.insert(0,(avg_lats, avg_lons))
     final_point = None
 
-    # Find the first working point :
-    for point in sorted_points:
-        if locator.is_usable_point_graphhopper(point):
-            final_point = point
-            break
+    if locator.is_usable_point_graphhopper(avg_point):
+        #print("Using direct centroid")
+        final_point = avg_point
+
+    # Go through postcodes to find usable point :
+    if USE_POSTCODES and final_point == None:
+        # Sort points by distance to the centroid :
+        calc_dist = lambda point: math.sqrt(float(avg_lats-point[0])**2 + float(avg_lons-point[0])**2)
+        sorted_points = sorted(points, key=calc_dist)
+
+        # Find the first working point :
+        for point in sorted_points:
+            if locator.is_usable_point_graphhopper(point):
+                #print("Using a postcode point")
+                final_point = point
+                break
+
+    # If no working point found, circle around the centroid :
+    if USE_CIRCLING and final_point == None:
+        radius = 0
+        ro = 0
+        while radius < RADIUS_MAX:
+            dlon = radius * math.cos(ro)
+            dlat = radius * math.sin(ro)
+
+            point = (avg_lats + dlat, avg_lons + dlon)
+            if locator.is_usable_point_graphhopper(point):
+                #print("Using a circle point")
+                final_point = point
+                break
+            
+            ro += CIRCLING_STEP_ANGLE
+            if ro > 2*math.pi:
+                ro -= 2*math.pi
+                radius += CIRCLING_STEP_RADIUS
 
     if final_point == None:
         print("ERROR : Couldn't find a working point for Graphhopper for key : " + str(key), file=sys.stderr)
@@ -95,7 +128,7 @@ for key in keys_to_delete:
     del res[key]
 
 keys = res.keys()
-print("We are using " + str(len(keys)) + " areas.")
+print("We are using " + str(len(keys)) + " areas (instead of " + old_keys_len + ").")
 nb_paths = math.factorial(len(keys))/(math.factorial(2)*math.factorial(len(keys)-2))
 print("This makes a total number of paths of : " + str(nb_paths))
 
