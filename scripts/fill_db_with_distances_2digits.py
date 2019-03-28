@@ -5,11 +5,18 @@ import mysql.connector
 import sys
 import math
 
+LON_MIN = -180
+LON_MAX = 180
+LAT_MIN = -90
+LAT_MAX = 90
+
 # Europe limits :
-LON_MIN = -11
-LON_MAX = 41
-LAT_MIN = 35
-LAT_MAX = 71
+USE_LIMITS=False
+if USE_LIMITS:
+    LON_MIN = -11
+    LON_MAX = 41
+    LAT_MIN = 35
+    LAT_MAX = 71
 CENTROID_SHIFT = 0.5
 
 # For circling around centroid :
