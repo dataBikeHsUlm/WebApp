@@ -112,7 +112,7 @@ for key in keys:
                 #print("Using a circle point")
                 final_point = point
                 break
-            
+
             ro += CIRCLING_STEP_ANGLE
             if ro > 2*math.pi:
                 ro -= 2*math.pi
