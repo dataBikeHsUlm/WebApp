@@ -48,6 +48,8 @@ for [country_iso,zip_code] in elms:
 
 print("Inserting postcodes in table...")
 counter = 0
+errors = 0
+errors_list = []
 while True:
     elm = pg_cursor.fetchone()
     if elm  == None:
@@ -68,9 +70,13 @@ while True:
                 (lat, lon) = locator.get_coordinates(query)
             except NotFoundException:
                 print("ERROR : " + query + " : not found, skipping...", file=sys.stderr)
+                errors_list.append((country_code,zipcode,country_name))
+                errors += 1
                 continue
             except Exception as e:
                 print("ERROR : unknown error : " + str(e), file=sys.stderr)
+                errors_list.append((country_code,zipcode,country_name))
+                errors += 1
                 continue
 
             try:
@@ -78,7 +84,10 @@ while True:
                 mydb.commit()
             except Exception as e:
                 print("ERROR : inserting in db : `" + query + "` : " + str(e), file=sys.stderr)
+                errors_list.append((country_code,zipcode,country_name))
+                errors += 1
                 continue
 
 print("Stopped at zipcode nb : " + str(counter))
+print(str(errors) + " errors occurred")
 postgres.close()
