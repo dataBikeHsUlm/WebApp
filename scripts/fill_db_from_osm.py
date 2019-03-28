@@ -91,3 +91,8 @@ while True:
 print("Stopped at zipcode nb : " + str(counter))
 print(str(errors) + " errors occurred")
 postgres.close()
+
+with open("res.csv",mode="w") as f:
+    f.write("%s,%s,%s/n" % ("country_iso","postcode","country_name"))
+    for e in errors_list:
+        f.write("%s,%s,%s/n" % e)
