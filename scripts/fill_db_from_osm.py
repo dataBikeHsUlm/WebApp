@@ -21,7 +21,7 @@ INSERT_INTO_MYSQL = "INSERT INTO " + DB_MySQL_TABLE + " VALUES (%s, %s, %s, %s, 
 print(" --------------------------------- ")
 DB_MySQL_PASSWORD = input("MySQL password : ")
 
-locator = Locator()
+locator = Locator(use_fallback = True)
 
 print("Connecting to PostgreSQL database...")
 postgres = psycopg2.connect('dbname=' + DB_NOMINATIM_NAME  + ' user=' + DB_NOMINATIM_USER)
@@ -58,7 +58,14 @@ while True:
         counter += 1
         country_code = elm[0].upper()
         zipcode = elm[1]
-        country_name = elm[2].split('"')[3]
+
+        # Works better with english name :
+        index = elm[2].find("\"name:en")
+
+        # But, it might not be found, if so use the default name :
+        if index < 0:
+            index = 0
+        country_name = elm[2][index:].split('"')[3]
 
         if existing.get((country_code,zipcode)) != True:
             print("" + str(counter) + " : " + country_code + " : " + country_name + " : " + zipcode)
