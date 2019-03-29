@@ -17,7 +17,6 @@ if USE_LIMITS:
     LON_MAX = 41
     LAT_MIN = 35
     LAT_MAX = 71
-CENTROID_SHIFT = 0.5
 
 # For circling around centroid :
 CIRCLING_STEP_RADIUS = 0.01
