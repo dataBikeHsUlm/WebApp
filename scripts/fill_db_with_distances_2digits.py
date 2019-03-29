@@ -61,6 +61,11 @@ res = {}
 for city in elms:
     country = city[1]
     zipcode = city[2]
+
+    zipcode = zipcode.replace(" ","").replace("-","").replace(".","")
+    if country == zipcode[:2]:
+        zipcode = zipcode[2:]
+
     country_2digits = country + zipcode[:2]
 
     # We still use the lat and lon to filter european cities and calculate centroid
@@ -74,6 +79,7 @@ for city in elms:
 
 keys = res.keys()
 old_keys_len = str(len(keys))
+print("Total number of regions : " + old_keys_len)
 
 print("Calculating average centroid of each area...")
 keys_to_delete = []
