@@ -62,7 +62,7 @@ def distance_between_postcodes_grid(DbClass, postcode_x, countrycode_x, postcode
 
 class Zipcode(models.Model):
     country_iso = models.CharField(max_length=2)
-    zip_code = models.CharField(max_length=30)
+    zip_code = models.CharField(max_length=60)
     lat = models.FloatField()
     lon = models.FloatField()
 
