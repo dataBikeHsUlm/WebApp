@@ -4,6 +4,8 @@ import psycopg2
 import mysql.connector
 import sys
 
+POSTCODE_FILE="scripts/geoname_postcodes_world.txt"
+
 # Nominatim postgreSQL
 # DB_NOMINATIM_NAME = "Planet"
 DB_NOMINATIM_NAME = "Europe"
@@ -50,6 +52,7 @@ print("Inserting postcodes in table...")
 counter = 0
 errors = 0
 errors_list = []
+countries = {}
 while True:
     elm = pg_cursor.fetchone()
     if elm  == None:
@@ -58,6 +61,8 @@ while True:
         counter += 1
         country_code = elm[0].upper()
         zipcode = elm[1]
+
+        countries[country_code] = True
 
         # Works better with english name :
         index = elm[2].find("\"name:en")
@@ -94,6 +99,34 @@ while True:
                 errors_list.append((country_code,zipcode,country_name))
                 errors += 1
                 continue
+            existing[(country_code,zipcode)] = True
+
+with open(POSTCODE_FILE) as f:
+    while True:
+        line = f.readline()
+        if len(line) == 0:
+            break
+
+        cols = line.split("\t")
+        country_code,zipcode,_,_,_,_,_,_,_,lat,lon,_ = cols
+
+        # In case of Luxembourg, the postcodes begin with a 'L-' while in Nominatim they don't...
+        if country_code == "LE":
+            zipcode = zipcode[2:]
+
+        if countries.get(country_code) == True and existing.get((country_code,zipcode)) != True:
+            counter += 1
+            print("" + str(counter) + " : " + country_code + " : " + zipcode)
+
+            try:
+                mydb_cursor.execute(INSERT_INTO_MYSQL, (counter, country_code, zipcode, lat, lon))
+                mydb.commit()
+            except Exception as e:
+                print("ERROR : inserting in db : `" + query + "` : " + str(e), file=sys.stderr)
+                errors_list.append((country_code,zipcode,country_name))
+                errors += 1
+                continue
+            existing[(country_code,zipcode)] = True
 
 print("Stopped at zipcode nb : " + str(counter))
 print(str(errors) + " errors occurred")
