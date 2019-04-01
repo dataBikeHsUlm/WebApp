@@ -81,6 +81,13 @@ keys = res.keys()
 old_keys_len = str(len(keys))
 print("Total number of regions : " + old_keys_len)
 
+# regs = {}
+# for key in keys:
+#     regs[key[:2]] = (regs.get(key[:2]) or 0) + 1
+# 
+# for k in regs.keys():
+#     print(k,"\t| ",regs[k])
+
 print("Calculating average centroid of each area...")
 keys_to_delete = []
 for key in keys:
